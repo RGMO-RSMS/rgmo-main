@@ -119,6 +119,7 @@ function submitPayment($db) {
                 $SERVICES->payment_balance = $_POST['remaining_balance'] - $SERVICES->payment;
                 $SERVICES->payment_id = $_POST['payment_id'];
                 $SERVICES->total_paid = $_POST['total_paid'] + $SERVICES->payment;
+                $SERVICES->date = date('Y-m-d');
                 $SERVICES->updatePayment();
 
                 // Check if Rental is Fully Paid
@@ -254,23 +255,61 @@ function getUserPayments($db) {
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach($data as $key => $value) {
-        
-        // Get Name of Id
-        $PROFILE = new Profile($db, $value['client_id']);
-        $data[$key]['client_name'] = $PROFILE->firstname . " " . $PROFILE->lastname;
 
-        // Get Service Name
-        $SERVICE_DATA = new Services($db);
-        $SERVICE_DATA->form_id = $value['form_id'];
-        $SERVICE_DATA->type_id = $SERVICE_DATA->getClientFormData()['service_id'];
-        $SERVICE_DATA->getServiceInfo();
-        $data[$key]['type_name'] = $SERVICE_DATA->type_name;
-        $data[$key]['location'] = $SERVICE_DATA->location;
-        $data[$key]['price'] = $SERVICE_DATA->price;
-        $data[$key]['description'] = $SERVICE_DATA->description;
-        $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
-        $data[$key]['service_id'] = $SERVICE_DATA->service_id;
-        $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
+        // Log Date
+        $log_date = explode("-", $value["log_date"]);
+
+        // No Filter Yet
+        if($_POST['filter'] == 0) {
+
+            // Get Name of Id
+            $PROFILE = new Profile($db, $value['client_id']);
+            $data[$key]['client_name'] = $PROFILE->firstname . " " . $PROFILE->lastname;
+
+            // Log Date Format
+            $data[$key]['log_date_format'] = date("F j, Y", strtotime($value['log_date']));
+
+            // Get Service Name
+            $SERVICE_DATA = new Services($db);
+            $SERVICE_DATA->form_id = $value['form_id'];
+            $SERVICE_DATA->type_id = $SERVICE_DATA->getClientFormData()['service_id'];
+            $SERVICE_DATA->getServiceInfo();
+            $data[$key]['type_name'] = $SERVICE_DATA->type_name;
+            $data[$key]['location'] = $SERVICE_DATA->location;
+            $data[$key]['price'] = $SERVICE_DATA->price;
+            $data[$key]['description'] = $SERVICE_DATA->description;
+            $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
+            $data[$key]['service_id'] = $SERVICE_DATA->service_id;
+            $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
+
+        }
+        // Equal to Year Selected
+        else if($log_date[0] == $_POST['filter']) {
+
+            // Get Name of Id
+            $PROFILE = new Profile($db, $value['client_id']);
+            $data[$key]['client_name'] = $PROFILE->firstname . " " . $PROFILE->lastname;
+
+            // Log Date Format
+            $data[$key]['log_date_format'] = date("F j, Y", strtotime($value['log_date']));
+
+            // Get Service Name
+            $SERVICE_DATA = new Services($db);
+            $SERVICE_DATA->form_id = $value['form_id'];
+            $SERVICE_DATA->type_id = $SERVICE_DATA->getClientFormData()['service_id'];
+            $SERVICE_DATA->getServiceInfo();
+            $data[$key]['type_name'] = $SERVICE_DATA->type_name;
+            $data[$key]['location'] = $SERVICE_DATA->location;
+            $data[$key]['price'] = $SERVICE_DATA->price;
+            $data[$key]['description'] = $SERVICE_DATA->description;
+            $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
+            $data[$key]['service_id'] = $SERVICE_DATA->service_id;
+            $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
+
+        }
+        else if($log_date[0] != $_POST['filter']) {
+            $data = '';
+        }
 
     }// foreach
 
@@ -356,6 +395,16 @@ function chartReport($db) {
 
 }// chart reports
 
+function yearSelection() {
+    $years = [];
+    $start_year = 2000;
+    $end_year = date("Y");
+    for($i = $end_year; $i >= $start_year; $i--) {
+        $years[] = ["id" => $i, "text" => $i];
+    }
+    return json_encode($years);
+}// year selection
+
 switch($_POST['case']) {
 
     // Get All Services
@@ -390,6 +439,8 @@ switch($_POST['case']) {
     case 'financial reports': echo financialReports($db); break;
     // Chart Reports
     case 'chart reports': echo chartReport($db); break;
+    // Client Dashboard Years
+    case 'year selection': echo yearSelection(); break;
 
 }// switch
 

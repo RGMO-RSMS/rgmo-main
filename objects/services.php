@@ -271,12 +271,13 @@ class Services {
         $payment_id = $this->conn->lastInsertId();
 
         // insert into tbl_payment_logs
-        $query_logs = "INSERT INTO tbl_payment_logs (client_id, payment, payment_balance, payment_id) VALUES (?,?,?,?)";
+        $query_logs = "INSERT INTO tbl_payment_logs (client_id, payment, payment_balance, payment_id, log_date) VALUES (?,?,?,?,?)";
         $stmt_logs = $this->conn->prepare($query_logs);
         $stmt_logs->bindParam(1, $this->client_id);
         $stmt_logs->bindParam(2, $this->payment);
         $stmt_logs->bindParam(3, $this->payment_balance);
         $stmt_logs->bindParam(4, $payment_id);
+        $stmt_logs->bindParam(5, $this->date);
         $stmt_logs->closeCursor();
         $stmt_logs->execute();
 
@@ -327,12 +328,13 @@ class Services {
     public function updatePayment() {
 
         // Insert tbl_payment_logs
-        $query_logs = "INSERT INTO tbl_payment_logs (client_id, payment, payment_balance, payment_id) VALUES(?,?,?,?)";
+        $query_logs = "INSERT INTO tbl_payment_logs (client_id, payment, payment_balance, payment_id, log_date) VALUES(?,?,?,?,?)";
         $stmt_logs = $this->conn->prepare($query_logs);
         $stmt_logs->bindParam(1, $this->client_id);
         $stmt_logs->bindParam(2, $this->payment);
         $stmt_logs->bindParam(3, $this->payment_balance);
         $stmt_logs->bindParam(4, $this->payment_id);
+        $stmt_logs->bindParam(5, $this->date);
         $stmt_logs->closeCursor();
         $stmt_logs->execute();
 

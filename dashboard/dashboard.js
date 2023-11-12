@@ -1,21 +1,51 @@
 
+// Initializations
+let filter_var = 0;
+
 // Client Dashboard
 let client_payments = $('#client-payments-table').DataTable({
     "responsive": true,
     "autoWidth": false,
     "lengthChange": false,
     select: true,
+    "order": [[3, 'desc']],
     ajax: {
         url: '../controller/ServicesController.php',
         type: 'POST',
-        data: {case: 'user payment'}
+        data: (d) => {
+            d.case = 'user payment',
+            d.filter = filter_var
+        }
     },
     columns: [
         {title: 'Service', 'data': 'type_name', targets: [0]},
         {title: 'Price', 'data': 'service_price', targets: [1]},
         {title: 'Payment', 'data': 'payment', targets: [2]},
-        {title: 'Balance', 'data': 'payment_balance', targets: [3]}
-    ]
+        {title: 'Payment Date', 'data': 'log_date', targets: [3]},
+        {title: 'Balance', 'data': 'payment_balance', targets: [4]}
+    ],
+    createdRow: function(row, data, index) {
+        // Change Log Date Payment to Undestandable format
+        $('td', row).eq(3).text('').append(data.log_date_format);
+    }
+});
+
+// Year Selection for Client Dashboard
+$('#year-selection').select2({
+    width: '100%',
+    theme: 'bootstrap4',
+    placeholder: 'Select Year',
+    ajax: {
+        url: '../controller/ServicesController.php',
+        type: 'POST',
+        data: {case: 'year selection'},
+        processResults: function(data, params) {
+            return {results: data};
+        }
+    }
+}).on('change', function() {
+    filter_var = $(this).val();
+    client_payments.ajax.reload();
 });
 
 // Get Number of Tenants

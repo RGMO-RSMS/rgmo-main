@@ -144,7 +144,16 @@
                             <div class="col-12">
                                 <div class="card border border-primary">
                                     <div class="card-header">
-                                        <h4><b>Payments</b></h4>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h4><b>Payments Summary</b></h4>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="col-4 float-right">
+                                                    <select name="year_selection" id="year-selection"></select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
