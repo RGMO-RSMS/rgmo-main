@@ -14,7 +14,6 @@
     <title>Location</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <?php require_once __DIR__ . '/../components/link.html'; ?>
-    <script type="module" src="location.js"></script>
 
     <style>
 
@@ -24,7 +23,7 @@
         */
 
         #map {
-            height: 100%;
+            height: 700px;
         }
 
         /* 
@@ -35,23 +34,6 @@
             height: 100%;
             margin: 0;
             padding: 0;
-        }
-
-        .custom-map-control-button {
-            background-color: #fff;
-            border: 0;
-            border-radius: 2px;
-            box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
-            margin: 10px;
-            padding: 0 0.5em;
-            font: 400 18px Roboto, Arial, sans-serif;
-            overflow: hidden;
-            height: 40px;
-            cursor: pointer;
-        }
-
-        .custom-map-control-button:hover {
-            background: rgb(235, 235, 235);
         }
 
     </style>
@@ -85,8 +67,6 @@
     </div>
     <!-- ./wrapper -->
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly" defer></script>
-
     <?php require_once __DIR__ . '/../components/script.html'; ?>
 
 </body>
@@ -103,7 +83,16 @@
 
     });// document
 
+    function callTheMap() {
+        var map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 16.72064737228411, lng: 121.68951205356905 },
+        zoom: 15,
+        });
+    }
+
 </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA92BUiQ713-42oouRif-PL27ub7siuYTc&libraries=visualization&callback=callTheMap" async defer></script>
 
 <?php
     }else {
