@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2023 at 05:26 PM
+-- Generation Time: Nov 12, 2023 at 03:53 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -40,7 +40,8 @@ CREATE TABLE `tbl_client_form` (
 --
 
 INSERT INTO `tbl_client_form` (`id`, `client_id`, `status`, `date`, `service_id`) VALUES
-(16, 22, 'Client Payment', '2023-11-01', 5);
+(16, 22, 'Client Payment', '2023-05-01', 5),
+(17, 10, 'Client Payment', '2023-11-12', 10);
 
 -- --------------------------------------------------------
 
@@ -83,7 +84,8 @@ CREATE TABLE `tbl_payments` (
 --
 
 INSERT INTO `tbl_payments` (`payment_id`, `service_price`, `total_paid`, `due_date`, `form_id`) VALUES
-(12, 400000, 400000, '0000-00-00', 16);
+(12, 400000, 400000, '0000-00-00', 16),
+(13, 800000, 2000, '0000-00-00', 17);
 
 -- --------------------------------------------------------
 
@@ -106,7 +108,8 @@ CREATE TABLE `tbl_payment_logs` (
 INSERT INTO `tbl_payment_logs` (`logs_id`, `client_id`, `payment`, `payment_balance`, `payment_id`) VALUES
 (14, 22, 2000, 398000, 12),
 (15, 22, 3000, 395000, 12),
-(16, 22, 395000, 0, 12);
+(16, 22, 395000, 0, 12),
+(17, 10, 2000, 798000, 13);
 
 -- --------------------------------------------------------
 
@@ -183,9 +186,9 @@ INSERT INTO `tbl_type_of_service` (`type_id`, `type_name`, `location`, `price`, 
 (5, 'Ondoy Housing', 'Antipolo', 400000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'no', 'housing2.jpg', 2),
 (6, 'Cherry Housing', 'Teresa', 100000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'housing3.jpg', 2),
 (7, 'Abuyod Housing', 'Teresa', 800000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'housing4.jpg', 2),
-(8, 'Coffee Stall', 'Manila', 5000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'no', 'stall1.jpg', 3),
+(8, 'Coffee Stall', 'Manila', 5000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'stall1.jpg', 3),
 (9, 'Pizza Stall', 'Makati', 4000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'stall2.jpg', 3),
-(10, 'Isabela Rice Field', 'Isabela', 800000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'palay1.jpg', 4),
+(10, 'Isabela Rice Field', 'Isabela', 800000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'no', 'palay1.jpg', 4),
 (11, 'Cagayan Rice Field', 'Cagayan', 900000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'palay2.jpg', 4),
 (12, 'Transylvania Room', 'Cubao', 500000, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry/\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has s', 'yes', 'luxury1.jpg', 5);
 
@@ -334,7 +337,7 @@ ALTER TABLE `tbl_user_info`
 -- AUTO_INCREMENT for table `tbl_client_form`
 --
 ALTER TABLE `tbl_client_form`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_list_of_service`
@@ -346,13 +349,13 @@ ALTER TABLE `tbl_list_of_service`
 -- AUTO_INCREMENT for table `tbl_payments`
 --
 ALTER TABLE `tbl_payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_logs`
 --
 ALTER TABLE `tbl_payment_logs`
-  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_role`
