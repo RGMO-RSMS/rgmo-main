@@ -14,9 +14,6 @@ function displaySidebar(role, page) {
         },
         success: function(data) {
 
-            // Variables
-            let isReports = false;
-
             // Append Sidebar
             data.forEach(element => {
                 
@@ -87,12 +84,10 @@ function displaySidebar(role, page) {
                 // Append List to ul
                 $('#sidebar-ul-id').append(li);
 
-                // Trigger Click On Reports Sidebar if Active
-                if(isReports) { $($('#sidebar-ul-id a')[4]).trigger('click'); }
-
             });
 
-        }
+        },
+        async: false
     });
 
 }// display sidebar

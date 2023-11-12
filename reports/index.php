@@ -114,11 +114,14 @@
             let role = "<?php echo $SES->role_name;  ?>";
             let user_id = "<?php echo $SES->id; ?>";
             displaySidebar(role, 'Reports');
-
+            
             switch(role) {
 
                 // If Admin
                 case 'admin':
+
+                    // Trigger Click Sidebar Reports
+                    $($('#sidebar-ul-id a')[4]).trigger('click');
 
                     switch(GetURLParameter('link')) {
                         
