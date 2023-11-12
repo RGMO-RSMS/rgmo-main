@@ -43,7 +43,7 @@
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="col-sm-1">
-                        <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: black;"></i></a>
+                        <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: primary;"></i></a>
                     </div>
                 </div><!-- /.container-fluid -->
             </div>
@@ -56,7 +56,7 @@
                 <div class="row">
 
                     <div class="col-10 mx-auto">
-                        <div class="card">
+                        <div class="card border border-primary mt-3">
 
                             <div class="card-header">
                                 <h4>Update Tenant's Info</h4>

@@ -36,7 +36,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-1"> 
-                            <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: black;"></i></a> 
+                            <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: primary;"></i></a> 
                         </div>
                         <div class="col-sm-10"> <h4 class="m-0"></h4> </div>
                     </div><!-- /.row -->
@@ -47,7 +47,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <div class="card border border-dark rounded p-4"></div>
+                    <div class="card border border-primary rounded p-4"></div>
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
@@ -95,7 +95,7 @@
                 data.forEach(element => {
                     
                     let div_col = $("<div class='col-sm-6'></div>");
-                    let img = $("<img src='../includes/images/"+element.service_image+"' alt='service image' class='border border-dark' height='200' width='50%'>")
+                    let img = $("<img src='../includes/images/"+element.service_image+"' alt='service image' class='border border-primary' height='200' width='50%'>")
                         .css('cursor', 'pointer')
                         .on('click', () => { 
 
@@ -114,8 +114,8 @@
 
                         });// on click
 
-                    let p_name = $("<p class='mb-0'>"+ element.type_name +"</p>");
-                    let p_availability = $("<p> Available: "+ element.availability_status +"</p>");
+                    let p_name = $("<p class='mb-0 mt-3'>"+ element.type_name +"</p>");
+                    let p_availability = $("<p> Available: <b>"+ element.availability_status +"</b></p>");
 
                     div_col.append(img).append(p_name).append(p_availability);
                     row.append(div_col);

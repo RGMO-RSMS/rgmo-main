@@ -57,7 +57,7 @@
                 <div class="row">
 
                     <div class="col-12">
-                        <div class="card">
+                        <div class="card border border-primary mt-3">
                             <div class="card-header">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
                                     <i class="fas fa-plus"> Add New</i>

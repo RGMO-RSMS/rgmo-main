@@ -36,7 +36,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-1"> 
-                            <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: black;"></i></a> 
+                            <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: primary;"></i></a> 
                         </div>
                         <div class="col-sm-10"> <h4 class="m-0">Services</h4> </div>
                     </div><!-- /.row -->
@@ -47,7 +47,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid main-content">
-                    <div class="card border border-dark">
+                    <div class="card border border-primary">
 
                         <div class="card-header">
                             <h3>Hi Client!</h3>
