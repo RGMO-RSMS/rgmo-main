@@ -313,6 +313,49 @@ function financialReports($db) {
 
 }// financial repoerts
 
+function chartReport($db) {
+
+    $SERVICES = new Services($db);
+    $data = $SERVICES->getAllClientForm();
+    $current_year = date("Y");
+    $months = [
+        ["text" => "January", "value" => 0], 
+        ["text" => "February", "value" => 0], 
+        ["text" => "March", "value" => 0], 
+        ["text" => "April", "value" => 0], 
+        ["text" => "May", "value" => 0], 
+        ["text" => "June", "value" => 0], 
+        ["text" => "July", "value" => 0], 
+        ["text" => "August", "value" => 0], 
+        ["text" => "September", "value" => 0], 
+        ["text" => "October", "value" => 0], 
+        ["text" => "November", "value" => 0], 
+        ["text" => "December", "value" => 0] 
+    ];
+
+    foreach($data as $key => $value) {
+
+        // Explode Date
+        $date = explode("-", $value["date"]);
+        $y = $date[0];
+        $m = $date[1];
+        
+        foreach($months as $k => $month) { 
+
+            // If Data Year is Equal to Current Year
+            if($y == $current_year) {
+                // Same Month
+                if($m == $k + 1) { $months[$k]['value'] = $month['value'] + 1; }
+            }
+    
+        }// foreach months
+
+    }// foreach data
+
+    return json_encode(array_column($months, "value"));
+
+}// chart reports
+
 switch($_POST['case']) {
 
     // Get All Services
@@ -345,6 +388,8 @@ switch($_POST['case']) {
     case 'user payment': echo getUserPayments($db); break;
     // Financial Reports Total
     case 'financial reports': echo financialReports($db); break;
+    // Chart Reports
+    case 'chart reports': echo chartReport($db); break;
 
 }// switch
 

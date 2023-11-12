@@ -167,6 +167,42 @@
                             });
                         break;
 
+                        // Chart
+                        case 'chart':
+
+                            let chart_data = '';
+
+                            // Get Collections Data
+                            $.ajax({
+                                url: '../controller/ServicesController.php',
+                                data: {case: 'chart reports'},
+                                type: 'POST',
+                                success: function(data) {
+                                    
+                                    let ctx = document.getElementById("admin-billing-chart").getContext("2d");
+                                    let myChart = new Chart(ctx, {
+                                        type: "line",
+                                        data: {
+                                            labels: [
+                                                "January", "February", "March",
+                                                "April", "May", "June",
+                                                "July", "August", "September",
+                                                "October", "November", "December"
+                                            ],
+                                            datasets: [
+                                                {
+                                                    label: "Total Collections",
+                                                    data: data,
+                                                    backgroundColor: "rgb(19, 11, 133)",
+                                                }
+                                            ],
+                                        },
+                                    });
+
+                                }
+                            });// ajax
+                        break;
+
                     }// switch
                     
 
