@@ -84,8 +84,25 @@
     });// document
 
     function callTheMap() {
+
+        let latitude = 0;
+        let longitude = 0;
+
+        // ISU Coordinates
+        // latitude = 16.72064737228411;
+        // longitude = 121.68951205356905;
+
+        // Banchetto
+        // latitude = 16.71657
+        // longitude = 121.68401
+
+        // Baguio
+        latitude = 16.4023;
+        longitude = 120.5960;
+        
+
         var map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 16.72064737228411, lng: 121.68951205356905 },
+        center: { lat: latitude, lng: longitude },
         zoom: 15,
         });
     }
