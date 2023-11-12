@@ -46,6 +46,7 @@ class Services {
 
         $query = "SELECT * FROM tbl_list_of_service WHERE service_id = ? ";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->service_id);
         $stmt->closeCursor();
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -74,6 +75,17 @@ class Services {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }// get type of services using id
+
+    public function typeIdGetService() {
+
+        $query = "SELECT service_id FROM tbl_type_of_service WHERE type_id = ? ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->type_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }// get service id using type id
 
     public function getServiceInfo() {
 

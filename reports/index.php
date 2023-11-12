@@ -158,12 +158,8 @@
                                     data: {case: 'financial reports'}
                                 },
                                 columns: [
-                                    {title: 'Client Name', 'data': 'client_name', targets: [0]},
-                                    {title: 'Service', 'data': 'type_name', targets: [1]},
-                                    {title: 'Price', 'data': 'service_price', targets: [2]},
-                                    {title: 'Total Paid', 'data': 'total_paid', targets: [3]},
-                                    {title: 'Paid in Transaction', 'data': 'payment', targets: [4]},
-                                    {title: 'Balance', 'data': 'payment_balance', targets: [5]}
+                                    {title: 'Services', 'data': 'service_name', targets: [0]},
+                                    {title: 'Total Collections', 'data': 'count', targets: [1]},
                                 ]
                             });
                         break;

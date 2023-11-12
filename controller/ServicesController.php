@@ -281,18 +281,35 @@ function getUserPayments($db) {
 function financialReports($db) {
 
     $SERVICES = new Services($db);
+    $SERVICES->get_services();
     $payments = $SERVICES->getAllPaymentData();
 
-    foreach($payments as $key => $value) { 
+    // List of Service Connect Payments
+    foreach($SERVICES->services as $key => $service) {
 
-        $FORM_SERVICE = new Services($db);
-        $FORM_SERVICE->form_id = $value['form_id'];
-        $FORM_SERVICE->type_id = $FORM_SERVICE->getClientFormData()['service_id'];
-        
+        $counter = 0;
 
-    }// foreach
+        foreach($payments as $k => $value) { 
+    
+            $FORM_SERVICE = new Services($db);
+            $FORM_SERVICE->form_id = $value['form_id'];
+            $FORM_SERVICE->type_id = $FORM_SERVICE->getClientFormData()['service_id'];
+            $FORM_SERVICE->service_id = $FORM_SERVICE->typeIdGetService()['service_id'];
 
-    return json_encode($payments);
+            // If List of Service Name is Equal to Paid Service Name add 1 count
+            if($service['service_name'] == $FORM_SERVICE->getListOfService()['service_name']) {
+                $counter = $counter + 1;
+            }
+            
+            // Add Counted Collection
+            $SERVICES->services[$key]['count'] = $counter;
+
+
+        }// payments foreach
+
+    }// services foreach
+
+    return json_encode(["data" => $SERVICES->services]);
 
 }// financial repoerts
 
