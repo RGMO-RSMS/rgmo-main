@@ -36,7 +36,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-1"> 
-                            <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: black;"></i></a> 
+                            <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: primary;"></i></a> 
                         </div>
                         <div class="col-sm-10"> <h4 class="m-0"></h4> </div>
                     </div><!-- /.row -->
@@ -100,7 +100,7 @@
                 let image = $("<img src='../includes/images/"+data.service_image+"' alt='service info image' width='100%'>");
                 let details = 
                     $(
-                        "<div class='row justify-content-center'> <h3>DETAILS</h3></div>" +
+                        "<div class='row justify-content-center'> <h3><b>DETAILS</b></h3></div>" +
                         "<div class='row justify-content-center'>" +
                             "<div style='width: 80%'>" +
                                 "<div class='row'>"+ data.description +"</div>" +
@@ -112,7 +112,7 @@
                                 "<div class='row mt-2'> <b class='mr-1'>Location:</b> " + data.location + "</div>" +
                             "</div>" +
                             "<div style='width: 80%'>" +
-                                "<div class='row mt-2 float-right'> <a href='client_form.php?type_id="+ data.type_id +"' class='btn btn-primary'>I Choose This</a> </div>" +
+                                "<div class='row mt-2 float-right'> <a href='client_form.php?type_id="+ data.type_id +"' class='btn btn-primary'>Rent</a> </div>" +
                             "</div>" +
                         "</div>"
                     );

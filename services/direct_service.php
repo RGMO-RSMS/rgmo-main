@@ -9,11 +9,11 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="row justify-content-center">
-        <div class="card m-4 col-10 border border-primary">
+        <div class="card border border-primary m-4 col-10">
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-1">
-                        <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: black;"></i></a>
+                        <a href="#" onclick="history.back()"><i class="fas fa-arrow-left" style="color: primary;"></i></a>
                     </div>
                     <div class="col-sm-10"><h4></h4></div>
                 </div>
@@ -104,7 +104,7 @@
                     data.forEach(element => {
                         
                         let div_col = $("<div class='col-sm-6'></div>");
-                        let img = $("<img src='../includes/images/"+element.service_image+"' alt='service image' class='border border-dark' height='200' width='50%'>")
+                        let img = $("<img src='../includes/images/"+element.service_image+"' alt='service image' class='border border-primary' height='200' width='50%'>")
                             .css('cursor', 'pointer')
                             .on('click', () => { 
 
@@ -159,7 +159,7 @@
                     let image = $("<img src='../includes/images/"+data.service_image+"' alt='service info image' width='100%'>");
                     let details = 
                         $(
-                            "<div class='row justify-content-center'> <h3>DETAILS</h3></div>" +
+                            "<div class='row justify-content-center'> <h3><b>DETAILS</b></h3></div>" +
                             "<div class='row justify-content-center'>" +
                                 "<div style='width: 80%'>" +
                                     "<div class='row'>"+ data.description +"</div>" +
@@ -173,7 +173,7 @@
                                 "<div style='width: 80%'>" +
                                     "<div class='row mt-2 float-right'> " + 
                                         "<a href='direct_service.php?service_name="+service_name+"&type_id="+type_id+"&client=1' class='btn btn-primary'>" +
-                                        "I Choose This</a>" +
+                                        "Rent</a>" +
                                     "</div>" +
                                 "</div>" +
                             "</div>"

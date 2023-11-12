@@ -67,7 +67,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card border border-primary mt-3">
                                     <div class="card-header">
                                         <h4>Payments Reports</h4>
                                     </div>

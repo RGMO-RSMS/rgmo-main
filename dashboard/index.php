@@ -118,7 +118,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card border border-primary mt-3">
                                     <div class="card-header">
                                         <h4>List of Payments</h4>
                                     </div>
@@ -142,9 +142,9 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card border border-primary">
                                     <div class="card-header">
-                                        <h4>Payments</h4>
+                                        <h4><b>Payments</b></h4>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
