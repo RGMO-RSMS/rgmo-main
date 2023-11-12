@@ -128,10 +128,11 @@
                         // Reports Table
                         case 'payment':
                             $('#admin-reports-table').DataTable({
+                                dom: 'lBfrtip',
                                 "responsive": true,
                                 "autoWidth": false,
                                 "lengthChange": false,
-                                "aaSorting": [],
+                                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
                                 ajax: {
                                     url: '../controller/ServicesController.php',
                                     type: 'POST',
@@ -145,7 +146,7 @@
                                     {title: 'Paid in Transaction', 'data': 'payment', targets: [4]},
                                     {title: 'Balance', 'data': 'payment_balance', targets: [5]}
                                 ]
-                            });
+                            }).buttons().container().appendTo('#admin-reports-table_wrapper .col-md-6:eq(0)');
                         break;
 
                         // Financial
