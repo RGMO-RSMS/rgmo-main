@@ -102,30 +102,16 @@
                     let row = $("<div class='row'></div>");
                     
                     data.forEach(element => {
+
+                        let div_col = $("<div class='col-md-3 m-2 border border-primary'></div>");
+                        let div_card = $("<div class='card'></div>");
+                        let img = $("<img class='card-img-top' src='../includes/images/"+element.service_image+"' height='200px' width='100%'>");
+                        let div_body = $("<div class='card-body'></div>");
+                        let card_title = $("<div class='card-title'>"+element.type_name+"</div>");
+                        let card_text = $("<p class='card-text'>Available: "+element.availability_status+"</p>");
                         
-                        let div_col = $("<div class='col-sm-6'></div>");
-                        let img = $("<img src='../includes/images/"+element.service_image+"' alt='service image' class='border border-primary' height='200' width='50%'>")
-                            .css('cursor', 'pointer')
-                            .on('click', () => { 
-
-                                // Check if service is available
-                                if(element.availability_status == 'yes') {
-                                    window.location.href = 'direct_service.php?service_name=' + service_name + '&type_id=' + element.type_id + '&client=0' 
-                                }
-                                else {
-                                    Swal.fire({
-                                        position: 'top',
-                                        icon: 'warning',
-                                        title: 'This Service is not Available!',
-                                        text: 'Please Pick Other Service.'
-                                    });
-                                }
-
-                            });
-                        let p_name = $("<p class='mb-0 mt-3'>"+ element.type_name +"</p>");
-                        let p_availability = $("<p> Available: <b>"+ element.availability_status +"</b></p>");
-
-                        div_col.append(img).append(p_name).append(p_availability);
+                        div_body.append(card_title).append(card_text);
+                        div_col.append(div_card).append(img).append(div_body);
                         row.append(div_col);
 
                     });
