@@ -109,3 +109,22 @@ function GetURLParameter(sParam) {
     }
 
 }// GetURLParameter
+
+// Check if All Type of Service is Available
+function checkServices(id, uri) {
+
+    let result = '';
+
+    $.ajax({
+        url: uri,
+        type: 'POST',
+        data: { case: 'service availability', id: id},
+        success: function(response) {
+            result = response;
+        },
+        async: false
+    });
+
+    return result;
+
+}// function

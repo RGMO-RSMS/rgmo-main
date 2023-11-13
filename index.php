@@ -79,6 +79,8 @@
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+<!-- Functions -->
+<script src="components/functions.js"></script>
 
 <script>
   
@@ -137,9 +139,20 @@
           "</div>");
 
           small_box.append(inner_box);
-          col.append(small_box).on('click', function() {
-            window.location.href = 'services/direct_service.php?service_name=' + element.service_name + '&type_id=0&client=0';
-          });
+          col.append(small_box);
+
+          // All Services in specific id is Available
+          if(checkServices(element.service_id, 'controller/ServicesController.php')) { 
+            col.on('click', function() {
+              window.location.href = 'services/direct_service.php?service_name=' + element.service_name + '&type_id=0&client=0';
+            });
+          }
+          else {
+            small_box.removeClass('bg-primary')
+            .addClass('bg-secondary')
+            .attr("title", "This Service is Closed");
+          }
+
           $('#services-display-div').append(col);
 
         });// foreach

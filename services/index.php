@@ -61,25 +61,6 @@
 
 <script>
 
-    // Check if All Type of Service is Available
-    function checkServices(id) {
-
-        let result = '';
-
-        $.ajax({
-            url: '../controller/ServicesController.php',
-            type: 'POST',
-            data: { case: 'service availability', id: id},
-            success: function(response) {
-                result = response;
-            },
-            async: false
-        });
-
-        return result;
-
-    }// function
-
     $(document).ready(function() {
 
         // Assign Role to js variable
@@ -97,8 +78,6 @@
                     type: 'POST',
                     data: {case: 'services'},
                     success: function(data) {
-
-                        console.log("services", data);
                         
                         data.forEach(element => {
 
@@ -109,7 +88,7 @@
                             small_box.append(inner);
 
                             // All Services in specific id is Available
-                            if(checkServices(element.service_id)) {
+                            if(checkServices(element.service_id, '../controller/ServicesController.php')) {
                                 small_box.css('cursor', 'pointer').on('click', () => {
                                     window.location.href = 'service_type.php?s=' + element.service_name;
                                 });
