@@ -99,7 +99,7 @@
                 data: {case: 'fetch type', service_name: service_name},
                 success: function(data) {
 
-                    let row = $("<div class='row'></div>");
+                    let row = $("<div class='row justify-content-center'></div>");
                     
                     data.forEach(element => {
 
@@ -107,8 +107,8 @@
                         let div_card = $("<div class='card'></div>");
                         let img = $("<img class='card-img-top' src='../includes/images/"+element.service_image+"' height='200px' width='100%'>");
                         let div_body = $("<div class='card-body'></div>");
-                        let card_title = $("<div class='card-title'>"+element.type_name+"</div>");
-                        let card_text = $("<p class='card-text'>Available: "+element.availability_status+"</p>");
+                        let card_title = $("<div class='card-title'><b>Available: "+element.availability_status+"</b></div>");
+                        let card_text = $("<p class='card-text'>"+element.type_name+"</p>");
                         
                         div_body.append(card_title).append(card_text);
                         div_col.append(div_card).append(img).append(div_body);
