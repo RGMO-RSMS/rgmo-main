@@ -105,7 +105,24 @@
 
                         let div_col = $("<div class='col-md-3 m-2 border border-primary'></div>");
                         let div_card = $("<div class='card'></div>");
-                        let img = $("<img class='card-img-top' src='../includes/images/"+element.service_image+"' height='200px' width='100%'>");
+                        let img = $("<img class='card-img-top' src='../includes/images/"+element.service_image+"' height='200px' width='100%'>")
+                        .css('cursor', 'pointer')
+                            .on('click', () => { 
+
+                                // Check if service is available
+                                if(element.availability_status == 'yes') {
+                                    window.location.href = 'direct_service.php?service_name=' + service_name + '&type_id=' + element.type_id + '&client=0' 
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'top',
+                                        icon: 'warning',
+                                        title: 'This Service is not Available!',
+                                        text: 'Please Pick Other Service.'
+                                    });
+                                }
+
+                        });
                         let div_body = $("<div class='card-body'></div>");
                         let card_title = $("<div class='card-title'><b>Available: "+element.availability_status+"</b></div>");
                         let card_text = $("<p class='card-text'>"+element.type_name+"</p>");
@@ -114,7 +131,7 @@
                         div_col.append(div_card).append(img).append(div_body);
                         row.append(div_col);
 
-                    });
+                    });// foreach
 
                     // Display Images to card
                     $('.card-body').append(row);
