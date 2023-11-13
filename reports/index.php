@@ -132,7 +132,14 @@
                                 "responsive": true,
                                 "autoWidth": false,
                                 "lengthChange": false,
-                                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                                "buttons": [
+                                    {
+                                        className: 'btn btn-primary',
+                                        extend: "print",
+                                        split: ["copy", "csv", "excel", "pdf"]
+                                    }
+                                ],
+                                // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
                                 ajax: {
                                     url: '../controller/ServicesController.php',
                                     type: 'POST',
