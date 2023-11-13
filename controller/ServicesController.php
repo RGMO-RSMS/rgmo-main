@@ -405,6 +405,25 @@ function yearSelection() {
     return json_encode($years);
 }// year selection
 
+function serviceAvailability($db) {
+
+    // boolean
+    $isAvailable = false;
+
+    $SERVICES = new Services($db);
+    $SERVICES->service_id = $_POST['id'];
+    
+    foreach($SERVICES->checkServiceAvailability() as $key => $value) {
+        if($value['availability_status'] == "yes") {
+            $isAvailable = true;
+            break;
+        }
+    }// foreach
+
+    return json_encode($isAvailable);
+
+}// service availability
+
 switch($_POST['case']) {
 
     // Get All Services
@@ -441,6 +460,8 @@ switch($_POST['case']) {
     case 'chart reports': echo chartReport($db); break;
     // Client Dashboard Years
     case 'year selection': echo yearSelection(); break;
+    // Check All Service Availability
+    case 'service availability': echo serviceAvailability($db); break;
 
 }// switch
 

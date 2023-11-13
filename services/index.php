@@ -61,6 +61,25 @@
 
 <script>
 
+    // Check if All Type of Service is Available
+    function checkServices(id) {
+
+        let result = '';
+
+        $.ajax({
+            url: '../controller/ServicesController.php',
+            type: 'POST',
+            data: { case: 'service availability', id: id},
+            success: function(response) {
+                result = response;
+            },
+            async: false
+        });
+
+        return result;
+
+    }// function
+
     $(document).ready(function() {
 
         // Assign Role to js variable
@@ -78,17 +97,29 @@
                     type: 'POST',
                     data: {case: 'services'},
                     success: function(data) {
+
+                        console.log("services", data);
                         
                         data.forEach(element => {
 
                             let div_col = $("<div class='col-lg-3 col-6'></div>");
                             let small_box = $("<div class='small-box bg-primary'></div>");
                             let inner = $("<div class='inner'></div>");
-
                             inner.append("<p>"+element.service_name+"</p>");
-                            small_box.append(inner).css('cursor', 'pointer').on('click', () => {
-                                window.location.href = 'service_type.php?s=' + element.service_name;
-                            });
+                            small_box.append(inner);
+
+                            // All Services in specific id is Available
+                            if(checkServices(element.service_id)) {
+                                small_box.css('cursor', 'pointer').on('click', () => {
+                                    window.location.href = 'service_type.php?s=' + element.service_name;
+                                });
+                            }
+                            else {
+                                small_box.removeClass('bg-primary')
+                                .addClass('bg-secondary')
+                                .attr("title", "This Service is Closed");
+                            }
+
                             
                             div_col.append(small_box);
                             $('#services-row-id').append(div_col);

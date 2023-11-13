@@ -157,6 +157,17 @@ class Services {
 
     }// get available services
 
+    public function checkServiceAvailability() {
+
+        $query = "SELECT * FROM tbl_type_of_service WHERE service_id = ? ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->service_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }// service availability
+
     public function updateStatus() {
 
         $query = "UPDATE tbl_client_form SET status = ? WHERE id = ? AND client_id = ? ";
