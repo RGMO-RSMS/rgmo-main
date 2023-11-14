@@ -101,6 +101,7 @@ class Services {
             $this->type_name = $row['type_name'];
             $this->location = $row['location'];
             $this->price = number_format($row['price']);
+            $this->true_price = $row['price'];
             $this->description = $row['description'];
             $this->availability_status = $row['availability_status'];
             $this->service_image = $row['service_image'];

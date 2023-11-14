@@ -143,6 +143,45 @@
                         let btn_delete = $("<button type='button' class='btn btn-danger'> Delete </button>");
                         $('td', row).eq(5).text('').append(btn_update).append(btn_delete);
 
+                        // Update Button
+                        btn_update.on('click', function(e) {
+                            e.preventDefault();
+                            $('#modal-update-service').modal('show');
+
+                            // Display For Update Service
+                            $.ajax({
+                                url: '../controller/ServicesController.php',
+                                type: 'POST',
+                                data: {
+                                    case: 'display update service', 
+                                    type_id: data.type_id,
+                                    service_id: data.service_id
+                                },
+                                success: function(data) {
+
+                                    console.log(data);
+
+                                    let type = $($('#update-service-id input')[0]);
+                                    let location = $($('#update-service-id input')[1]);
+                                    let price = $($('#update-service-id input')[2]);
+                                    let description = $($('#update-service-id textarea'));
+                                    
+                                    $('#update-service-id select').select2({
+                                        width: '100%', 
+                                        theme: 'bootstrap4',
+                                        data: data.selected_service
+                                    });
+
+                                    type.val(data.type_name);
+                                    location.val(data.location);
+                                    price.val(data.true_price);
+                                    description.val(data.description);
+
+                                }
+                            });
+
+                        });// update on click
+
                         // Delete Button
                         btn_delete.on('click', function(e) {
                             e.preventDefault();
