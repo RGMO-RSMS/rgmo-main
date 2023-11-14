@@ -434,6 +434,8 @@ switch($_POST['case']) {
     case 'service info': echo service_info($db); break;
     // Get All Type of Services
     case 'all types': echo allServiceType($db); break;
+    // All Services Types DataTable
+    case 'all types table': echo json_encode(['data' => json_decode(allServiceType($db))]); break;
     // Get All Pending Request
     case 'pending request': echo pending_request($db); break;
     // Logged in Client Submit Request

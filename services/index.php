@@ -36,6 +36,10 @@
                         require_once __DIR__ . '/client_index.html';
                     break;
 
+                    case 'admin':
+                        require_once __DIR__ . '/admin_index.html';
+                    break;
+
                 }// switch
             
             ?>
@@ -108,6 +112,37 @@
                     }
                 });
 
+            break;
+
+            case 'admin':
+
+                $('#service-table-id').DataTable({
+                    "responsive": true,
+                    "autoWidth": false,
+                    "lengthChange": false,
+                    ajax: {
+                        url: '../controller/ServicesController.php',
+                        type: 'POST',
+                        data: {case: 'all types table'}
+                    },
+                    columns: [
+                        {title: 'Service Name', 'data': 'service_id', targets: [0]},
+                        {title: 'Type Name', 'data': 'type_name', targets: [1]},
+                        {title: 'Location', 'data': 'location', targets: [2]},
+                        {title: 'Price', 'data': 'price', targets: [3]},
+                        {title: 'Availability', 'data': 'availability_status', targets: [4]},
+                        {title: 'Action', 'data': 'type_id', targets: [5]}
+                    ],
+                    createdRow: function(row, data, index) {
+
+                        // Action Buttons
+                        let btn_update = $("<button type='button' class='btn btn-success mr-2'> Update </button>");
+                        let btn_delete = $("<button type='button' class='btn btn-danger'> Delete </button>");
+                        $('td', row).eq(5).text('').append(btn_update).append(btn_delete);
+
+                    }
+                });
+            
             break;
 
         }// switch
