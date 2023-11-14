@@ -359,6 +359,26 @@ class Services {
 
     }// update payment
 
+    public function addService() {
+
+        $query = "INSERT INTO tbl_type_of_service 
+            (type_name, location, price, description, availability_status, service_image, service_id)
+            VALUES (?,?,?,?,?,?,?)
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->type_name);
+        $stmt->bindParam(2, $this->location);
+        $stmt->bindParam(3, $this->price);
+        $stmt->bindParam(4, $this->description);
+        $stmt->bindParam(5, $this->availability_status);
+        $stmt->bindParam(6, $this->service_image);
+        $stmt->bindParam(7, $this->service_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+
+    }// add service
+
 }// class
 
 ?>

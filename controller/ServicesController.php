@@ -29,6 +29,14 @@ function service_type($db) {
     return json_encode($SERVICES->idGetType());
 }
 
+function servicesSelection(array $data) {
+    $selection = [];
+    foreach($data as $key => $value) {
+        $selection[] = ['id' => $value->service_id, 'text' => $value->service_name];
+    }
+    return json_encode($selection);
+}
+
 function service_info($db) {
     $SERVICES = new Services($db);
     $SERVICES->type_id = $_POST['type_id'];
@@ -424,6 +432,46 @@ function serviceAvailability($db) {
 
 }// service availability
 
+function addService($db) {
+
+    try {
+
+        $target_dir = __DIR__ . "/../includes/images/";
+        $target_file = $target_dir . basename($_FILES["service_image"]["name"]);
+        $file_name = $_FILES["service_image"]["name"];
+
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            throw new Exception("File Name Already Exists! Try other Name!");
+        }
+
+        // Upload Image
+        if(move_uploaded_file($_FILES["service_image"]["tmp_name"], $target_file)) { 
+
+            $SERVICES = new Services($db);
+            $SERVICES->type_name = $_POST['type_name'];
+            $SERVICES->location = $_POST['location'];
+            $SERVICES->price = $_POST['price'];
+            $SERVICES->description = $_POST['description'];
+            $SERVICES->availability_status = "yes";
+            $SERVICES->service_image = $file_name;
+            $SERVICES->service_id = $_POST['service_name'];
+            $SERVICES->addService();
+
+            return json_encode(['status' => true]);
+
+        }// upload image
+        else {
+            throw new Exception("Something wrong with uploading your image! Please Try Again!");
+        }
+        
+
+    }catch(Exception $e) {
+        return json_encode(['status' => false, 'message' => $e->getMessage()]);
+    }
+
+}// add service
+
 switch($_POST['case']) {
 
     // Get All Services
@@ -464,6 +512,13 @@ switch($_POST['case']) {
     case 'year selection': echo yearSelection(); break;
     // Check All Service Availability
     case 'service availability': echo serviceAvailability($db); break;
+    // Services Selection
+    case 'services selection':
+        $data = json_decode(services($db));
+        echo servicesSelection($data);
+    break;
+    // Add Service
+    case 'add service': echo addService($db); break;
 
 }// switch
 
