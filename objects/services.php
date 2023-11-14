@@ -379,6 +379,14 @@ class Services {
 
     }// add service
 
+    public function deleteService() {
+        $query = "DELETE FROM tbl_type_of_service WHERE type_id = ? ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->type_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+    }
+
 }// class
 
 ?>
