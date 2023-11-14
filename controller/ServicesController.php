@@ -29,7 +29,7 @@ function service_type($db) {
     return json_encode($SERVICES->idGetType());
 }
 
-function servicesSelection(array $data) {
+function servicesSelection($data) {
     $selection = [];
     foreach($data as $key => $value) {
         $selection[] = ['id' => $value->service_id, 'text' => $value->service_name];
@@ -484,6 +484,28 @@ function addService($db) {
 
 }// add service
 
+function displayUpdateService($db) {
+
+    $SERVICES = new Services($db);
+    $SERVICES->service_name = $_POST['service_id'];
+    $SERVICES->getServiceId();
+
+    $services = json_decode(services($db));
+    $services_selection = json_decode(servicesSelection($services));
+    $service_info = json_decode(service_info($db));
+
+    foreach($services_selection as $k => $v) {
+        if($v->id == $SERVICES->service_id) {
+            $services_selection[$k]->selected = true;
+            break;
+        }
+    }
+
+    $service_info->selected_service = $services_selection;
+    return json_encode($service_info);
+
+}// display update service
+
 switch($_POST['case']) {
 
     // Get All Services
@@ -533,6 +555,8 @@ switch($_POST['case']) {
     case 'add service': echo addService($db); break;
     // Delete Service
     case 'delete service': echo deleteService($db); break;
+    // Display Update Service
+    case 'display update service': echo displayUpdateService($db); break;
 
 }// switch
 
