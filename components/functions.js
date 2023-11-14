@@ -3,7 +3,7 @@
 
 function displaySidebar(role, page) {
 
-    let sidebar_id = (role == 'client') ? [1, 4, 5, 7] : [1, 2, 3, 6];
+    let sidebar_id = (role == 'client') ? [1, 4, 5, 7] : [1, 2, 5, 3, 6];
         
     $.ajax({
         url: '../controller/SidebarController.php',

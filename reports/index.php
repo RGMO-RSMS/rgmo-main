@@ -121,7 +121,7 @@
                 case 'admin':
 
                     // Trigger Click Sidebar Reports
-                    $($('#sidebar-ul-id a')[3]).trigger('click');
+                    $($('#sidebar-ul-id a')[4]).trigger('click');
 
                     switch(GetURLParameter('link')) {
                         
