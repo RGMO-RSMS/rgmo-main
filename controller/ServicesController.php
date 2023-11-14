@@ -44,6 +44,18 @@ function service_info($db) {
     return json_encode($SERVICES);
 }
 
+function deleteService($db) {
+    try {
+        $SERVICES = new Services($db);
+        $SERVICES->type_id = $_POST['type_id'];
+        $SERVICES->deleteService();
+        return json_encode(['status' => true]);
+    }
+    catch(Exception $e) {
+        return json_encode(['status'=> false,'message'=> $e->getMessage()]);
+    }
+}
+
 function allServiceType($db) {
     $SERVICES = new Services($db);
     return json_encode($SERVICES->getAllType());
@@ -519,6 +531,8 @@ switch($_POST['case']) {
     break;
     // Add Service
     case 'add service': echo addService($db); break;
+    // Delete Service
+    case 'delete service': echo deleteService($db); break;
 
 }// switch
 
