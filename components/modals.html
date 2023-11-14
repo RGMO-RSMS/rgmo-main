@@ -299,3 +299,76 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<!-- Add Service Modal -->
+<div class="modal fade" id="modal-add-service">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Add Service</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                
+                <form id="add-service-id" autocomplete="off" enctype="multipart/form-data">
+                    
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <select name="service_name"></select>
+                        </div>
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label>Type of Service</label>
+                            <input type="text" name="type_name" class="form-control">
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Location</label>
+                            <input type="text" name="location" class="form-control">
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Price</label>
+                            <input type="number" name="price" class="form-control">
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label>Description</label>
+                            <textarea name="description" cols="30" rows="3" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+						<div class="form-group col-12">
+							<label>Upload an Image: </label>
+							<input type="file" id="service-image" name="service_image">
+						</div>
+					</div>
+					<!-- /.row -->
+
+                    <div class="col-12">
+						<div class="float-right">
+							<button type="submit" class="btn btn-primary btn-block">Submit</button>
+						</div>
+					</div>
+					<!-- /.row -->
+
+				</form>
+
+            </div>
+            <!-- /. modal-body -->
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

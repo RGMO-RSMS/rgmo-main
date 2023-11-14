@@ -23,6 +23,7 @@
         <?php
             require_once __DIR__ . '/../components/navbar.php';
             require_once __DIR__ . '/../components/sidebar.php';
+            require_once __DIR__ . '/../components/modals.html';
         ?>
 
         <!-- Content Wrapper. Contains page content -->
@@ -116,6 +117,8 @@
 
             case 'admin':
 
+                let selectServiceName = $($('#add-service-id select')[0]);
+
                 $('#service-table-id').DataTable({
                     "responsive": true,
                     "autoWidth": false,
@@ -142,6 +145,119 @@
 
                     }
                 });
+
+                // Add Service Name Select
+                selectServiceName.select2({
+                    width: '100%', theme: 'bootstrap4',
+                    placeholder: 'Select Service',
+                    allowClear: true,
+                    ajax: {
+                        url: '../controller/ServicesController.php',
+                        type: 'POST',
+                        data: {case: 'services selection'},
+                        processResults: function(data, params) {
+                            return {results: data};
+                        }
+                    }
+                });
+
+                // Upload Event
+                $('#service-image').on('change', function() {
+
+                    let file = $('#service-image').val().split(".");
+
+                    // Check file extension if image
+                    if(file[file.length - 1] == "jpg" || file[file.length - 1] == "jpeg" || file[file.length - 1] == "png") {}
+                    else {
+
+                        Swal.fire({
+                            position: 'top',
+                            icon: 'warning',
+                            title: 'Invalid File!',
+                            text: 'JPEG, JPG and PNG image file only.',
+                            showConfirmButton: true
+                        });
+
+                        $(this).val('');
+
+                    }// else 
+
+                });// on change
+
+                // Add Service
+                $('#add-service-id').validate({
+                    rules: {
+                        service_name: {required: true},
+                        type_name: {required: true},
+                        location: {required: true},
+                        price: {required: true},
+                        description: {required: true},
+                        service_image: {required: true}
+                    },
+                    errorElement: 'span',
+                    errorPlacement: function(error, element) {
+                        error.addClass('invalid-feedback');
+                        element.closest('.form-group').append(error);
+                    },
+                    highlight: function(element, errorClass, validClass) { $(element).addClass('is-invalid'); },
+                    unhighlight: function(element, errorClass, validClass) { $(element).removeClass('is-invalid'); },
+                    submitHandler: function(form) { 
+
+                        Swal.fire({
+                            position: 'top',
+                            title: 'Are you sure!',
+                            text: 'You want to Add this Service?',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Add'
+                        }).then((result) => {
+
+                            if(result.isConfirmed) {
+                                
+                                let formData = new FormData(form);
+                                formData.append('case', 'add service');
+
+                                $.ajax({
+                                    url: '../controller/ServicesController.php',
+                                    type: 'POST',
+                                    processData: false,
+                                    contentType: false,
+                                    data:formData,
+                                    success: function(response) {
+
+                                        if(response.status == true) {
+
+                                            Swal.fire({
+                                                position: 'top',
+                                                icon: 'success',
+                                                title: 'Service Added!',
+                                                showConfirmButton: true
+                                            }).then(function() {
+                                                location.reload();
+                                            });
+
+                                        }
+                                        else {
+
+                                            Swal.fire({
+                                                position: 'top',
+                                                icon: 'warning',
+                                                title: response.message,
+                                                showConfirmButton: true
+                                            });
+
+                                        }
+
+                                    }
+                                });
+                                
+                            }
+                            
+                        });// swal
+
+                    }// submit handler
+                });// validate
             
             break;
 
