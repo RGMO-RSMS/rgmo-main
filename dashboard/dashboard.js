@@ -370,7 +370,7 @@ let payments_table = $('#admin-payment-list').DataTable({
         // Display Balance
         // api.column(5).footer().innerHTML = sum_balance;
         // Display Sum Paid
-        api.column(6).footer().innerHTML = sum_paid;
+        // api.column(6).footer().innerHTML = sum_paid;
 
     }
 });

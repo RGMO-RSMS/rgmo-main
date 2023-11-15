@@ -125,14 +125,14 @@
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <table class="table table-bordered table-striped" id="admin-payment-list">
-                                            <tfoot>
+                                            <!-- <tfoot>
                                                 <tr>
                                                     <th colspan="4" style="text-align: right">Total:</th>
                                                     <th></th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
-                                            </tfoot>
+                                            </tfoot> -->
                                         </table>
                                     </div>
                                     <!-- /.card-body -->
