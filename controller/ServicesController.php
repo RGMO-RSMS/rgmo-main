@@ -489,6 +489,7 @@ function displayUpdateService($db) {
     $SERVICES = new Services($db);
     $SERVICES->service_name = $_POST['service_id'];
     $SERVICES->getServiceId();
+    $selections = [];
 
     $services = json_decode(services($db));
     $services_selection = json_decode(servicesSelection($services));
@@ -496,15 +497,34 @@ function displayUpdateService($db) {
 
     foreach($services_selection as $k => $v) {
         if($v->id == $SERVICES->service_id) {
-            $services_selection[$k]->selected = true;
-            break;
+            $selections[] = ['id' => $v->id, 'text' => $v->text, 'selected' => true];
+        }
+        else {
+            $selections[] = ['id' => $v->id, 'text' => $v->text];
         }
     }
 
-    $service_info->selected_service = $services_selection;
+    $service_info->selected_service = $selections;
     return json_encode($service_info);
 
 }// display update service
+
+function updateService($db) {
+    try {
+        $SERVICES = new Services($db);
+        $SERVICES->type_name = $_POST['type_name'];
+        $SERVICES->location = $_POST['location'];
+        $SERVICES->price = $_POST['price'];
+        $SERVICES->description = $_POST['description'];
+        $SERVICES->service_id = $_POST['service_name'];
+        $SERVICES->type_id = $_POST['type_id'];
+        $SERVICES->updateService();
+        return json_encode(['status' => true]);
+    }
+    catch(Exception $e) {
+        return json_encode(['status'=> false,'message'=> $e->getMessage()]);
+    }
+}// update service
 
 switch($_POST['case']) {
 
@@ -557,6 +577,8 @@ switch($_POST['case']) {
     case 'delete service': echo deleteService($db); break;
     // Display Update Service
     case 'display update service': echo displayUpdateService($db); break;
+    // Update Service
+    case 'update service': echo updateService($db); break;
 
 }// switch
 

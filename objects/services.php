@@ -388,6 +388,23 @@ class Services {
         $stmt->execute();
     }
 
+    public function updateService() {
+        $query = "UPDATE tbl_type_of_service
+            SET type_name = ?, location = ?,
+            price = ?, description = ?, service_id = ?
+            WHERE type_id = ?
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->type_name);
+        $stmt->bindParam(2, $this->location);
+        $stmt->bindParam(3, $this->price);
+        $stmt->bindParam(4, $this->description);
+        $stmt->bindParam(5, $this->service_id);
+        $stmt->bindParam(6, $this->type_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+    }
+
 }// class
 
 ?>
