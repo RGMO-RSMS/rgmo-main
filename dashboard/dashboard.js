@@ -347,8 +347,24 @@ let payments_table = $('#admin-payment-list').DataTable({
         {title: 'Phone Number', 'data': 'contact_number', targets: [2]},
         {title: 'Service', 'data': 'service_name', targets: [3]},
         {title: 'Service Price', 'data': 'service_price', targets: [4]},
-        {title: 'Balance', 'data': 'remaining_balance', targets: [5]}
-    ]
+        {title: 'Balance', 'data': 'remaining_balance', targets: [5]},
+        {title: 'Paid', 'data': 'total_paid', targets: [6]}
+    ],
+    footerCallback: function (row, data, start, end, display) {
+        
+        // Initializations
+        let api = this.api();
+        let sum = 0;
+
+        // Sum of All Payments
+        data.forEach(element => {
+            sum = sum + element.total_paid;
+        });
+
+        // Display Sum
+        api.column(6).footer().innerHTML = sum;
+
+    }
 });
 
 // On Select for Payments Table

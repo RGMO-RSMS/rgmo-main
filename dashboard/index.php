@@ -124,7 +124,14 @@
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
-                                        <table class="table table-bordered table-striped" id="admin-payment-list"></table>
+                                        <table class="table table-bordered table-striped" id="admin-payment-list">
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="6" style="text-align: right">Total:</th>
+                                                    <th></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                     <!-- /.card-body -->
                                 </div>
