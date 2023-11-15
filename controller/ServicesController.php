@@ -526,6 +526,21 @@ function updateService($db) {
     }
 }// update service
 
+function allTypesTableWithFiltering($db) {
+
+    $data = json_decode(allServiceType($db));
+    $new_data = [];
+
+    foreach($data as $key => $value) {
+        if($_POST['availability'] == $value->availability_status) {
+            $new_data[] = $value;
+        }
+    }
+
+    return json_encode(['data' => ($_POST['isTrue'] == 1) ? $new_data : $data]);
+
+}// filtering
+
 switch($_POST['case']) {
 
     // Get All Services
@@ -537,7 +552,7 @@ switch($_POST['case']) {
     // Get All Type of Services
     case 'all types': echo allServiceType($db); break;
     // All Services Types DataTable
-    case 'all types table': echo json_encode(['data' => json_decode(allServiceType($db))]); break;
+    case 'all types table': echo allTypesTableWithFiltering($db); break;
     // Get All Pending Request
     case 'pending request': echo pending_request($db); break;
     // Logged in Client Submit Request

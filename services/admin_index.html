@@ -16,9 +16,20 @@
         <div class="col-12">
             <div class="card border border-primary mt-3">
                 <div class="card-header">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-service">
-                        <i class="fas fa-plus"> Add Service</i>
-                    </button>
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-service">
+                                <i class="fas fa-plus"> Add Service</i>
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <div class="col-4 float-right">
+                                <select name="availability_select" id="availability-select">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

@@ -119,15 +119,21 @@
 
                 let selectServiceName = $($('#add-service-id select')[0]);
                 let type_id = '';
+                let filter_var = 0;
+                let filter_true = 0;
 
-                $('#service-table-id').DataTable({
+                let services_table = $('#service-table-id').DataTable({
                     "responsive": true,
                     "autoWidth": false,
                     "lengthChange": false,
                     ajax: {
                         url: '../controller/ServicesController.php',
                         type: 'POST',
-                        data: {case: 'all types table'}
+                        data: (d) => {
+                            d.case = 'all types table',
+                            d.availability = filter_var,
+                            d.isTrue = filter_true
+                        }
                     },
                     columns: [
                         {title: 'Service Name', 'data': 'service_id', targets: [0]},
@@ -319,6 +325,21 @@
                         });// delete on click
 
                     }
+                });//DataTable
+
+                $('#availability-select').select2({
+                    width: '100%',
+                    theme: 'bootstrap4',
+                    placeholder: 'Filter Availability',
+                    allowClear: true,
+                    data: [
+                        {id: 'yes', text: 'yes'},
+                        {id: 'no', text: 'no'},
+                    ]
+                }).on('change', function() {
+                    filter_var = $(this).val();
+                    filter_true = 1;
+                    services_table.ajax.reload();
                 });
 
                 // Add Service Name Select
