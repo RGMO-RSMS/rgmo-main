@@ -358,7 +358,7 @@ let payments_table = $('#admin-payment-list').DataTable({
 
         // Sum of All Payments
         data.forEach(element => {
-            sum += element.total_paid;
+            sum = sum + parseInt(element.total_paid);
         });
 
         // Display Sum
