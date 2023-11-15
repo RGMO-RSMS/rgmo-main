@@ -118,6 +118,7 @@
             case 'admin':
 
                 let selectServiceName = $($('#add-service-id select')[0]);
+                let type_id = '';
 
                 $('#service-table-id').DataTable({
                     "responsive": true,
@@ -145,8 +146,11 @@
 
                         // Update Button
                         btn_update.on('click', function(e) {
+
                             e.preventDefault();
-                            $('#modal-update-service').modal('show');
+                            
+                            // Show Modal
+                            $('#modal-update-service').modal('toggle');
 
                             // Display For Update Service
                             $.ajax({
@@ -157,30 +161,112 @@
                                     type_id: data.type_id,
                                     service_id: data.service_id
                                 },
-                                success: function(data) {
-
-                                    console.log(data);
+                                success: function(response) {
 
                                     let type = $($('#update-service-id input')[0]);
                                     let location = $($('#update-service-id input')[1]);
                                     let price = $($('#update-service-id input')[2]);
                                     let description = $($('#update-service-id textarea'));
-                                    
+                                    type.val(response.type_name);
+                                    location.val(response.location);
+                                    price.val(response.true_price);
+                                    description.val(response.description);
+                                    type_id = response.type_id;
+
+                                    console.log(response);
+
+                                    $('#update-service-id').val(null).trigger('change');
+
                                     $('#update-service-id select').select2({
-                                        width: '100%', 
+                                        width: '100%',
                                         theme: 'bootstrap4',
-                                        data: data.selected_service
+                                        data: response.selected_service
                                     });
 
-                                    type.val(data.type_name);
-                                    location.val(data.location);
-                                    price.val(data.true_price);
-                                    description.val(data.description);
+                                    $('#update-service-id select').trigger('change');
 
-                                }
-                            });
+                                },
+                                async: false
+                            });// ajax display update
+
 
                         });// update on click
+
+                        // Update Service
+                        $('#update-service-id').validate({
+                            rules: {
+                                service_name: {required: true},
+                                type_name: {required: true},
+                                location: {required: true},
+                                price: {required: true},
+                                description: {required: true}
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function(error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function(element, errorClass, validClass) { $(element).addClass('is-invalid'); },
+                            unhighlight: function(element, errorClass, validClass) { $(element).removeClass('is-invalid'); },
+                            submitHandler: function(form) { 
+
+                                Swal.fire({
+                                    position: 'top',
+                                    title: 'Are you sure!',
+                                    text: 'You want to Update this Service?',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Update'
+                                }).then((result) => {
+
+                                    if(result.isConfirmed) {
+                                        
+                                        let formData = new FormData(form);
+                                        formData.append('case', 'update service');
+                                        formData.append('type_id', type_id);
+
+                                        $.ajax({
+                                            url: '../controller/ServicesController.php',
+                                            type: 'POST',
+                                            processData: false,
+                                            contentType: false,
+                                            data:formData,
+                                            success: function(response) {
+
+                                                if(response.status == true) {
+
+                                                    Swal.fire({
+                                                        position: 'top',
+                                                        icon: 'success',
+                                                        title: 'Service Updated!',
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    }).then(function() {
+                                                        location.reload();
+                                                    });
+
+                                                }
+                                                else {
+
+                                                    Swal.fire({
+                                                        position: 'top',
+                                                        icon: 'warning',
+                                                        title: response.message,
+                                                        showConfirmButton: true
+                                                    });
+
+                                                }
+
+                                            }
+                                        });
+                                        
+                                    }
+                                    
+                                });// swal
+
+                            }// submit handler
+                        });// validate
 
                         // Delete Button
                         btn_delete.on('click', function(e) {
@@ -212,7 +298,7 @@
                                                     showConfirmButton: false,
                                                     timer: 1500
                                                 }).then(function() {
-                                                    location.reload();
+                                                    window.location.reload();
                                                 });
                                             }
                                             else {
