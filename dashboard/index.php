@@ -127,7 +127,9 @@
                                         <table class="table table-bordered table-striped" id="admin-payment-list">
                                             <tfoot>
                                                 <tr>
-                                                    <th colspan="6" style="text-align: right">Total:</th>
+                                                    <th colspan="4" style="text-align: right">Total:</th>
+                                                    <th></th>
+                                                    <th></th>
                                                     <th></th>
                                                 </tr>
                                             </tfoot>

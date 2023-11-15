@@ -354,15 +354,23 @@ let payments_table = $('#admin-payment-list').DataTable({
         
         // Initializations
         let api = this.api();
-        let sum = 0;
+        let sum_price = 0;
+        let sum_balance = 0;
+        let sum_paid = 0;
 
         // Sum of All Payments
         data.forEach(element => {
-            sum = sum + parseInt(element.total_paid);
+            sum_price = sum_price + parseInt(element.service_price);
+            sum_balance = sum_balance + parseInt(element.remaining_balance);
+            sum_paid = sum_paid + parseInt(element.total_paid);
         });
 
-        // Display Sum
-        api.column(6).footer().innerHTML = sum;
+        // Display Service Price
+        api.column(4).footer().innerHTML = sum_price;
+        // Display Balance
+        api.column(5).footer().innerHTML = sum_balance;
+        // Display Sum Paid
+        api.column(6).footer().innerHTML = sum_paid;
 
     }
 });
