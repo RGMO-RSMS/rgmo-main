@@ -366,9 +366,9 @@ let payments_table = $('#admin-payment-list').DataTable({
         });
 
         // Display Service Price
-        api.column(4).footer().innerHTML = sum_price;
+        // api.column(4).footer().innerHTML = sum_price;
         // Display Balance
-        api.column(5).footer().innerHTML = sum_balance;
+        // api.column(5).footer().innerHTML = sum_balance;
         // Display Sum Paid
         api.column(6).footer().innerHTML = sum_paid;
 
