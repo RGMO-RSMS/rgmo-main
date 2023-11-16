@@ -338,7 +338,7 @@
                     ]
                 }).on('change', function() {
                     filter_var = $(this).val();
-                    filter_true = 1;
+                    filter_true = (filter_var == "yes" || filter_var == "no") ? 1 : 0;
                     services_table.ajax.reload();
                 });
 
