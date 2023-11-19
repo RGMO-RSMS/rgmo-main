@@ -532,6 +532,9 @@ function allTypesTableWithFiltering($db) {
     $new_data = [];
 
     foreach($data as $key => $value) {
+
+        $data[$key]->decimal_price = number_format($value->price,2,'.',',');
+
         if($_POST['availability'] == $value->availability_status) {
             $new_data[] = $value;
         }

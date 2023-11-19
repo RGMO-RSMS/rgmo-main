@@ -139,7 +139,7 @@
                         {title: 'Service Name', 'data': 'service_id', targets: [0]},
                         {title: 'Type Name', 'data': 'type_name', targets: [1]},
                         {title: 'Location', 'data': 'location', targets: [2]},
-                        {title: 'Price', 'data': 'price', targets: [3]},
+                        {title: 'Price', 'data': 'decimal_price', targets: [3]},
                         {title: 'Availability', 'data': 'availability_status', targets: [4]},
                         {title: 'Action', 'data': 'type_id', targets: [5]}
                     ],
@@ -179,8 +179,6 @@
                                     description.val(response.description);
                                     type_id = response.type_id;
 
-                                    console.log(response);
-
                                     $('#update-service-id').val(null).trigger('change');
 
                                     $('#update-service-id select').select2({
@@ -199,80 +197,80 @@
                         });// update on click
 
                         // Update Service
-                        // $('#update-service-id').validate({
-                        //     rules: {
-                        //         service_name: {required: true},
-                        //         type_name: {required: true},
-                        //         location: {required: true},
-                        //         price: {required: true},
-                        //         description: {required: true}
-                        //     },
-                        //     errorElement: 'span',
-                        //     errorPlacement: function(error, element) {
-                        //         error.addClass('invalid-feedback');
-                        //         element.closest('.form-group').append(error);
-                        //     },
-                        //     highlight: function(element, errorClass, validClass) { $(element).addClass('is-invalid'); },
-                        //     unhighlight: function(element, errorClass, validClass) { $(element).removeClass('is-invalid'); },
-                        //     submitHandler: function(form) { 
+                        $('#update-service-id').validate({
+                            rules: {
+                                service_name: {required: true},
+                                type_name: {required: true},
+                                location: {required: true},
+                                price: {required: true},
+                                description: {required: true}
+                            },
+                            errorElement: 'span',
+                            errorPlacement: function(error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function(element, errorClass, validClass) { $(element).addClass('is-invalid'); },
+                            unhighlight: function(element, errorClass, validClass) { $(element).removeClass('is-invalid'); },
+                            submitHandler: function(form) { 
 
-                        //         Swal.fire({
-                        //             position: 'top',
-                        //             title: 'Are you sure!',
-                        //             text: 'You want to Update this Service?',
-                        //             showCancelButton: true,
-                        //             confirmButtonColor: '#3085d6',
-                        //             cancelButtonColor: '#d33',
-                        //             confirmButtonText: 'Update'
-                        //         }).then((result) => {
+                                Swal.fire({
+                                    position: 'top',
+                                    title: 'Are you sure!',
+                                    text: 'You want to Update this Service?',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Update'
+                                }).then((result) => {
 
-                        //             if(result.isConfirmed) {
+                                    if(result.isConfirmed) {
                                         
-                        //                 let formData = new FormData(form);
-                        //                 formData.append('case', 'update service');
-                        //                 formData.append('type_id', type_id);
+                                        let formData = new FormData(form);
+                                        formData.append('case', 'update service');
+                                        formData.append('type_id', type_id);
 
-                        //                 $.ajax({
-                        //                     url: '../controller/ServicesController.php',
-                        //                     type: 'POST',
-                        //                     processData: false,
-                        //                     contentType: false,
-                        //                     data:formData,
-                        //                     success: function(response) {
+                                        $.ajax({
+                                            url: '../controller/ServicesController.php',
+                                            type: 'POST',
+                                            processData: false,
+                                            contentType: false,
+                                            data:formData,
+                                            success: function(response) {
 
-                        //                         if(response.status == true) {
+                                                if(response.status == true) {
 
-                        //                             Swal.fire({
-                        //                                 position: 'top',
-                        //                                 icon: 'success',
-                        //                                 title: 'Service Updated!',
-                        //                                 showConfirmButton: false,
-                        //                                 timer: 1500
-                        //                             }).then(function() {
-                        //                                 location.reload();
-                        //                             });
+                                                    Swal.fire({
+                                                        position: 'top',
+                                                        icon: 'success',
+                                                        title: 'Service Updated!',
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    }).then(function() {
+                                                        location.reload();
+                                                    });
 
-                        //                         }
-                        //                         else {
+                                                }
+                                                else {
 
-                        //                             Swal.fire({
-                        //                                 position: 'top',
-                        //                                 icon: 'warning',
-                        //                                 title: response.message,
-                        //                                 showConfirmButton: true
-                        //                             });
+                                                    Swal.fire({
+                                                        position: 'top',
+                                                        icon: 'warning',
+                                                        title: response.message,
+                                                        showConfirmButton: true
+                                                    });
 
-                        //                         }
+                                                }
 
-                        //                     }
-                        //                 });
+                                            }
+                                        });
                                         
-                        //             }
+                                    }
                                     
-                        //         });// swal
+                                });// swal
 
-                        //     }// submit handler
-                        // });// validate
+                            }// submit handler
+                        });// validate
 
                         // Delete Button
                         btn_delete.on('click', function(e) {
