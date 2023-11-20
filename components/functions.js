@@ -128,3 +128,29 @@ function checkServices(id, uri) {
     return result;
 
 }// function
+
+function invalidImageType(element_id) {
+
+    element_id.on('change', function() {
+
+        let file = element_id.val().split(".");
+
+        // Check file extension if image
+        if(file[file.length - 1] == "jpg" || file[file.length - 1] == "jpeg" || file[file.length - 1] == "png") {}
+        else {
+
+            Swal.fire({
+                position: 'top',
+                icon: 'warning',
+                title: 'Invalid File!',
+                text: 'JPEG, JPG and PNG image file only.',
+                showConfirmButton: true
+            });
+
+            $(this).val('');
+
+        }// else 
+
+    });// on change
+
+}// invalid image type

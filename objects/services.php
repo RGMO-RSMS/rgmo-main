@@ -405,6 +405,15 @@ class Services {
         $stmt->execute();
     }
 
+    public function updateImage() {
+        $query = "UPDATE tbl_type_of_service SET service_image = ? WHERE type_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->service_image);
+        $stmt->bindParam(2, $this->type_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+    }
+
 }// class
 
 ?>

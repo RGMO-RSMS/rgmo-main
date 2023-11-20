@@ -173,12 +173,14 @@
                                     let location = $($('#update-service-id input')[1]);
                                     let price = $($('#update-service-id input')[2]);
                                     let description = $($('#update-service-id textarea'));
+                                    let display_image = $($('#update-service-image div')[0]);
                                     type.val(response.type_name);
                                     location.val(response.location);
                                     price.val(response.true_price);
                                     description.val(response.description);
                                     type_id = response.type_id;
 
+                                    // Services Select
                                     $('#update-service-id').val(null).trigger('change');
 
                                     $('#update-service-id select').select2({
@@ -188,6 +190,16 @@
                                     });
 
                                     $('#update-service-id select').trigger('change');
+
+                                    // Remove Previous Appended Images before Adding New
+                                    $($('#update-service-image div > img')).remove();
+
+                                    // Remove Previous Upload Value from Choose Image
+                                    $($("#update-service-image input[type='file']")).val("");
+
+                                    // Service Image Display
+                                    let image_element = $("<img src='../includes/images/"+response.service_image+"' alt='Service Image' height='100' width='200'>");
+                                    display_image.append(image_element);
 
                                 },
                                 async: false
@@ -272,6 +284,75 @@
                             }// submit handler
                         });// validate
 
+                        // Update Service Image
+                        $('#update-service-image').validate({
+                            rules: { service_image: {required: true} },
+                            errorElement: 'span',
+                            errorPlacement: function(error, element) {
+                                error.addClass('invalid-feedback');
+                                element.closest('.form-group').append(error);
+                            },
+                            highlight: function(element, errorClass, validClass) { $(element).addClass('is-invalid'); },
+                            unhighlight: function(element, errorClass, validClass) { $(element).removeClass('is-invalid'); },
+                            submitHandler: function(form) {
+
+                                Swal.fire({
+                                    position: 'top',
+                                    icon: 'warning',
+                                    title: 'Are you sure?',
+                                    text: 'You want Update this Image?',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes'
+                                }).then((result) => {
+
+                                    if(result.isConfirmed) {
+
+                                        let formData = new FormData(form);
+                                        formData.append('case', 'update service image');
+                                        formData.append('type_id', type_id);
+
+                                        $.ajax({
+                                            url: '../controller/ServicesController.php',
+                                            type: 'POST',
+                                            contentType: false,
+                                            processData: false,
+                                            data: formData,
+                                            success: function(response) {
+                                                if(response.status == true) {
+
+                                                    Swal.fire({
+                                                        position: 'top',
+                                                        icon: 'success',
+                                                        title: 'Service Image Updated!',
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    }).then(function() {
+                                                        location.reload();
+                                                    });
+
+                                                    }
+                                                    else {
+
+                                                    Swal.fire({
+                                                        position: 'top',
+                                                        icon: 'warning',
+                                                        title: response.message,
+                                                        showConfirmButton: true
+                                                    });
+
+                                                }
+                                            }
+                                        });
+
+                                    }// if
+
+                                });
+
+                            }
+                        });// update service image validate
+
                         // Delete Button
                         btn_delete.on('click', function(e) {
                             e.preventDefault();
@@ -355,28 +436,9 @@
                     }
                 });
 
-                // Upload Event
-                $('#service-image').on('change', function() {
-
-                    let file = $('#service-image').val().split(".");
-
-                    // Check file extension if image
-                    if(file[file.length - 1] == "jpg" || file[file.length - 1] == "jpeg" || file[file.length - 1] == "png") {}
-                    else {
-
-                        Swal.fire({
-                            position: 'top',
-                            icon: 'warning',
-                            title: 'Invalid File!',
-                            text: 'JPEG, JPG and PNG image file only.',
-                            showConfirmButton: true
-                        });
-
-                        $(this).val('');
-
-                    }// else 
-
-                });// on change
+                // Service Image Upload Event
+                invalidImageType($('#service-image'));
+                invalidImageType($('#update-image-file'));
 
                 // Add Service
                 $('#add-service-id').validate({

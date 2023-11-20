@@ -519,12 +519,51 @@ function updateService($db) {
         $SERVICES->service_id = $_POST['service_name'];
         $SERVICES->type_id = $_POST['type_id'];
         $SERVICES->updateService();
+
         return json_encode(['status' => true]);
+
     }
     catch(Exception $e) {
         return json_encode(['status'=> false,'message'=> $e->getMessage()]);
     }
 }// update service
+
+function updateServiceImage($db) {
+    try {
+
+        // Get Selected Service Image
+        $SERVICES = new Services($db);
+        $SERVICES->type_id = $_POST['type_id'];
+        $SERVICES->getServiceInfo();
+
+        // Update Image
+        $target_dir = __DIR__ . "/../includes/images/";
+        $target_file = $target_dir . basename($_FILES["service_image"]["name"]);
+
+        // Update in FileSystem
+        if(move_uploaded_file($_FILES["service_image"]["tmp_name"], $target_file)) { 
+            
+        }// move uploaded files
+        else {
+            throw new Exception("Not Uploaded");
+        }
+
+        $SERVICE_IMAGE = new Services($db);
+        $SERVICE_IMAGE->service_image = $_FILES["service_image"]["name"];;
+        $SERVICE_IMAGE->type_id = $_POST['type_id'];
+        $SERVICE_IMAGE->updateImage();
+
+        // Delete File in System
+        unlink($target_dir . $SERVICES->service_image);
+        
+        return json_encode(['status' => true]);
+
+    }
+    catch(Exception $e) {
+        return json_encode(['status'=> false,'message'=> $e->getMessage()]);
+    }
+
+}// update image
 
 function allTypesTableWithFiltering($db) {
 
@@ -597,6 +636,8 @@ switch($_POST['case']) {
     case 'display update service': echo displayUpdateService($db); break;
     // Update Service
     case 'update service': echo updateService($db); break;
+    // Update Service Image
+    case 'update service image': echo updateServiceImage($db); break;
 
 }// switch
 
