@@ -132,6 +132,7 @@
                         data: (d) => {
                             d.case = 'all types table',
                             d.availability = filter_var,
+                            d.location = filter_var,
                             d.isTrue = filter_true
                         }
                     },
@@ -418,6 +419,25 @@
                 }).on('change', function() {
                     filter_var = $(this).val();
                     filter_true = (filter_var == "yes" || filter_var == "no") ? 1 : 0;
+                    services_table.ajax.reload();
+                });
+  
+                $('#location-select').select2({
+                    width: '100%',
+                    theme: 'bootstrap4',
+                    placeholder: 'filter location',
+                    allowClear: true,
+                    data: [
+                        {id: 'Isabela', text: 'Isabela'},
+                        {id: 'Cagayan', text: 'Cagayan'},
+                        {id: 'Ilocos Norte', text: 'Ilocos Norte'},
+                        {id: 'Cavite', text: 'Cavite'},
+                        {id: 'Teresa', text: 'Teresa'},
+                        {id: 'Antipolo', text: 'Antipolo'},
+                    ]
+                }).on('change', function() {
+                    filter_var = $(this).val();
+                    filter_true = (filter_var == "Isabela" || filter_var == "Cagayan" || filter_var == "Ilocos Norte" || filter_var == "Cavite" || filter_var == "Teresa" || filter_var == "Antipolo") ? 1 : 0;
                     services_table.ajax.reload();
                 });
 
