@@ -9,6 +9,7 @@ class Services {
     public $type_name;
     public $location;
     public $price;
+    public $true_price;
     public $description;
     public $availability_status;
     public $service_image;

@@ -576,6 +576,8 @@ function allTypesTableWithFiltering($db) {
 
         if($_POST['availability'] == $value->availability_status) {
             $new_data[] = $value;
+        }elseif($_POST['location'] == $value->location) {
+            $new_data[] = $value;
         }
     }
 
