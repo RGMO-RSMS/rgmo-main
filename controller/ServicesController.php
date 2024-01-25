@@ -348,23 +348,26 @@ function financialReports($db) {
 
         $counter = 0;
 
-        foreach($payments as $k => $value) { 
+        if(!empty($payments)) {
+
+            foreach($payments as $k => $value) { 
+        
+                $FORM_SERVICE = new Services($db);
+                $FORM_SERVICE->form_id = $value['form_id'];
+                $FORM_SERVICE->type_id = $FORM_SERVICE->getClientFormData()['service_id'];
+                $FORM_SERVICE->service_id = $FORM_SERVICE->typeIdGetService()['service_id'];
     
-            $FORM_SERVICE = new Services($db);
-            $FORM_SERVICE->form_id = $value['form_id'];
-            $FORM_SERVICE->type_id = $FORM_SERVICE->getClientFormData()['service_id'];
-            $FORM_SERVICE->service_id = $FORM_SERVICE->typeIdGetService()['service_id'];
-
-            // If List of Service Name is Equal to Paid Service Name add 1 count
-            if($service['service_name'] == $FORM_SERVICE->getListOfService()['service_name']) {
-                $counter = $counter + 1;
-            }
+                // If List of Service Name is Equal to Paid Service Name add 1 count
+                if($service['service_name'] == $FORM_SERVICE->getListOfService()['service_name']) {
+                    $counter = $counter + 1;
+                }
+                
+            }// payments foreach
             
-            // Add Counted Collection
-            $SERVICES->services[$key]['count'] = $counter;
+        }// if
 
-
-        }// payments foreach
+        // Add Counted Collection
+        $SERVICES->services[$key]['count'] = $counter;
 
     }// services foreach
 
