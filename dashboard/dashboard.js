@@ -346,9 +346,9 @@ let payments_table = $('#admin-payment-list').DataTable({
         {title: 'Email', 'data': 'client_email', targets: [1]},
         {title: 'Phone Number', 'data': 'contact_number', targets: [2]},
         {title: 'Service', 'data': 'service_name', targets: [3]},
-        {title: 'Service Price', 'data': 'service_price', targets: [4]},
-        {title: 'Balance', 'data': 'remaining_balance', targets: [5]},
-        {title: 'Paid', 'data': 'total_paid', targets: [6]}
+        {title: 'Service Price', 'data': 'f_price', targets: [4]},
+        {title: 'Balance', 'data': 'f_rbalance', targets: [5]},
+        {title: 'Paid', 'data': 'f_tpaid', targets: [6]}
     ],
     footerCallback: function (row, data, start, end, display) {
         
@@ -366,11 +366,13 @@ let payments_table = $('#admin-payment-list').DataTable({
         });
 
         // Display Service Price
-        // api.column(4).footer().innerHTML = sum_price;
+        api.column(4).footer().innerHTML = sum_price.toLocaleString("en-US");
         // Display Balance
-        // api.column(5).footer().innerHTML = sum_balance;
+        api.column(5).footer().innerHTML = sum_balance.toLocaleString("en-US");
         // Display Sum Paid
-        // api.column(6).footer().innerHTML = sum_paid;
+        api.column(6).footer().innerHTML = sum_paid.toLocaleString("en-US");
+
+        
 
     }
 });

@@ -187,6 +187,11 @@ function paidClient($db) {
         $payments_data[$key]['remaining_balance'] = $value['service_price'] - $value['total_paid'];
         $payments_data[$key]['status'] = $client_form['status'];
 
+        // Format to Money Format
+        $payments_data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
+        $payments_data[$key]['f_rbalance'] = number_format($payments_data[$key]['remaining_balance'], 0, '', ',');
+        $payments_data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
+
     }// foreach
 
     return json_encode($payments_data);
@@ -248,6 +253,12 @@ function getClientPayments($db) {
         $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
         $data[$key]['service_id'] = $SERVICE_DATA->service_id;
         $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
+
+        // Format to Money Format
+        $data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
+        $data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
+        $data[$key]['f_payment'] = number_format($value['payment'], 0, '', ',');
+        $data[$key]['f_pbalance'] = number_format($value['payment_balance'], 0, '', ',');
 
     }// foreach
 

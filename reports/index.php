@@ -148,10 +148,10 @@
                                 columns: [
                                     {title: 'Client Name', 'data': 'client_name', targets: [0]},
                                     {title: 'Service', 'data': 'type_name', targets: [1]},
-                                    {title: 'Price', 'data': 'service_price', targets: [2]},
-                                    {title: 'Total Paid', 'data': 'total_paid', targets: [3]},
-                                    {title: 'Paid in Transaction', 'data': 'payment', targets: [4]},
-                                    {title: 'Balance', 'data': 'payment_balance', targets: [5]}
+                                    {title: 'Price', 'data': 'f_price', targets: [2]},
+                                    {title: 'Total Paid', 'data': 'f_tpaid', targets: [3]},
+                                    {title: 'Paid in Transaction', 'data': 'f_payment', targets: [4]},
+                                    {title: 'Balance', 'data': 'f_pbalance', targets: [5]}
                                 ]
                             }).buttons().container().appendTo('#admin-reports-table_wrapper .col-md-6:eq(0)');
                         break;
