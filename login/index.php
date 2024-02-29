@@ -51,7 +51,7 @@
 			<!-- /.login-logo -->
 			<div class="card">
 				<div class="card-body login-card-body">
-					<p class="login-box-msg">Log in to your account</p>
+					<p class="login-box-msg"><b>Log in to your account</b></p>
 
 					<form id="login-user">
 						<div class="input-group mb-3">

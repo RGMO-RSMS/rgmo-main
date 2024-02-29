@@ -40,7 +40,7 @@
 
 		<div class="card">
 			<div class="card-body register-card-body">
-				<p class="login-box-msg">Create an Account</p>
+				<p class="login-box-msg"><b>Create an Account</b></p>
 
 				<form id="register-user" autocomplete="off" enctype="multipart/form-data">
 					

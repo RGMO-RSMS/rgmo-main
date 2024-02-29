@@ -53,7 +53,7 @@
 
                             <div class="card-header row">
                                 <div class="col-6"></div>
-                                <div class="col-6"><h3>Basic Information</h3></div>
+                                <div class="col-6"><h3><b>Basic Information</b></h3></div>
                             </div>
                             <!-- /.card-header -->
 
@@ -62,7 +62,7 @@
                                 <div class="row" id="basic-info-row">
                                     <div class="col-6"></div>
                                     <div class="col-6"></div>
-                                </div>
+                            </div>
                                 <!-- /.row -->
 
                             </div>

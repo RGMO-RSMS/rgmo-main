@@ -13,12 +13,19 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition sidebar-mini">
+
+<style>
+  .bg-home {
+    background-color: #f4eeff;
+  }
+</style>
+
+<body class="hold-transition sidebar-mini bg-home">
 
   <div class="card">
     <div class="row">
 
-      <div class="col-6"><img src="" alt="Logo Here" ></div>
+      <div class="col-6 mt-1"><img src="dist/img/RGMO-RSMS.png" alt="Logo Here" class="brand-image img-circle elevation-1" height=50px weight=50px> <b>RGMO-RSMS</b></div>
 
       <div class="col-6">
         <!-- Navbar -->
@@ -54,7 +61,7 @@
   <!-- <div class="row justify-content-center"><h2></h2></div> -->
 
   <div class="row justify-content-center">
-    <div id="carousel-main-div" class="carousel slide border border-dark mt-5" style="height: 300px; width: 400px;" data-ride="carousel">
+    <div id="carousel-main-div" class="carousel slide border border-primary mt-5" style="height: 300px; width: 400px;" data-ride="carousel">
       <ol class="carousel-indicators"></ol>
       <div class="carousel-inner"></div>
       <a class="carousel-control-prev" href="#carousel-main-div" role="button" data-slide="prev">
@@ -102,7 +109,7 @@
           let carousel_item = $("<div class='carousel-item'></div>");
           let img = $("<img class='d-block' style='height: 300px; width: '400px;' src='includes/images/"+data[index].service_image+"' alt='"+data[index].type_name+"'>")
           let div_caption = $("<div class='carousel-caption d-none d-md-block'></div>");
-          let h5 = $("<h5>"+data[index].type_name+"</h5>");
+          let h6 = $("<h6><b>"+data[index].type_name+"</b></h6>");
           let p = $("<p>Service "+data[index].service_id+"</p>");
 
           // Carousel Indicators
@@ -110,7 +117,7 @@
           $('.carousel-indicators').append(li_target);
 
           // Carousel Inner
-          div_caption.append(h5).append(p);
+          div_caption.append(h6).append(p);
           carousel_item.append(img).append(div_caption);
           if(index == 0) { carousel_item.addClass('active') }
           $('.carousel-inner').prepend(carousel_item);

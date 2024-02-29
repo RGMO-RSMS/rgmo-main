@@ -120,7 +120,7 @@
                             <div class="col-12">
                                 <div class="card border border-primary mt-3">
                                     <div class="card-header">
-                                        <h4>List of Payments</h4>
+                                        <h4><b>List of Payments</b></h4>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">

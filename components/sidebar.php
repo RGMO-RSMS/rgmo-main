@@ -5,12 +5,12 @@
     <div class="brand-link">
 
       <div class="row justify-content-center mb-2 mt-3">
-        <img src="../dist/img/ISU.png" alt="Rental Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="../dist/img/RGMO-RSMS.png" alt="Rental Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       </div>
 
       <div class="row justify-content-center"><span class="brand-text font-weight-light h6"><b>Resource Generation Management</b></span></div>
       <div class="row justify-content-center"><span class="brand-text font-weight-light h6"><b>Office</b> <i>(RGMO)</i> <b>Rental Services</b></span></div>
-      <div class="row justify-content-center"><span class="brand-text font-weight-light h6"><b>Monitor System</b></span></div>
+      <div class="row justify-content-center"><span class="brand-text font-weight-light h6"><b>Monitoring System</b></span></div>
 
     </div>
 
