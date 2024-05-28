@@ -1,6 +1,7 @@
 
 // Initializations
 let filter_var = 0;
+let filter_true = 0; //filter services variable
 
 // Client Dashboard
 let client_payments = $('#client-payments-table').DataTable({
@@ -339,7 +340,11 @@ let payments_table = $('#admin-payment-list').DataTable({
     ajax: {
         url: '../controller/ServicesController.php',
         type: 'POST',
-        data: {case: 'admin reports'}
+        data: (d) => {
+            d.case = 'admin reports',
+            d.filter = filter_var,
+            d.istrue = filter_true
+        }
     },
     columns: [
         {title: 'Client Name', 'data': 'client_name', targets: [0]},
@@ -481,3 +486,24 @@ payments_table.on('select', function(e, dt, type, indexes) {
     }// if remaining balance is not equal to 0
 
 });// on select
+
+
+//filter services
+$('#filter_service').select2({
+    width: '100%',
+    theme: 'bootstrap4',
+    placeholder: 'filter service',
+    allowClear: true,
+    ajax: {
+        url: '../controller/ServicesController.php',
+        type: 'POST',
+        data:{ case:'filter service'},
+        processResults: function (data) {
+            return {results: data};
+        }
+    }
+}).on('change', function() {
+    filter_var = $(this).val();
+    filter_true = (filter_var == "") ? 0 : 1;
+    payments_table.ajax.reload();
+});

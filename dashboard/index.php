@@ -119,8 +119,21 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="card border border-primary mt-3">
-                                    <div class="card-header">
-                                        <h4><b>List of Payments</b></h4>
+                                    <div class="card-header">  
+                                        <div class="row">
+                                            <div class="col-6">
+                                            <h4><b>List of Payments</b></h4>
+                                            </div>
+                                            <!-- filter services -->
+                                            <!-- <div class="col-6">
+                                                <div class="col-4 float-right">
+                                                    <select name="filter_service" id="filter_service">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                            </div> -->
+                                            
+                                        </div>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">

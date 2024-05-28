@@ -30,6 +30,7 @@ function getInfo($id, $db) {
 
 }// get info
 
+
 // Get All list of Clients
 function getAllClients($db) {
 
@@ -297,6 +298,34 @@ function deleteUser($db) {
 
 }// delete user
 
+function addressSelection($db){
+    $data = [];
+    $query = "SELECT address FROM tbl_user_info";
+    $stmt = $db->prepare($query);
+    $stmt->closeCursor();
+    $stmt->execute();
+    foreach($stmt->fetchAll(PDO::FETCH_ASSOC)as $key => $value) {
+    $data[]=["id"=>$value['address'],"text"=>$value['address']];
+        }
+        return json_encode($data);
+}
+
+function filterAddress($db,$filter,$istrue){
+    if ($istrue == 1){
+      $data =[];
+        foreach(json_decode(getAllClients($db))as $key => $value){
+        if ($filter == $value->address){
+            $data[] = $value;
+        }
+      }
+    }else{
+        $data = json_decode(getAllClients($db));
+    }
+    return json_encode(["data"=> $data]);
+    
+}
+
+
 switch($_POST['case']) {
 
     case 'get_info': echo getInfo($_POST['id'], $db); break;
@@ -306,6 +335,8 @@ switch($_POST['case']) {
     case 'get for update': echo updateDisplay(json_decode(getInfo($_POST['id'], $db))); break;
     case 'update client info': echo updateClientInfo($db); break;
     case 'delete user': echo deleteUser($db); break;
+    case 'filter selection': echo addressSelection($db); break;
+
 
 }// switch
 

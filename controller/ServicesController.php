@@ -588,16 +588,47 @@ function allTypesTableWithFiltering($db) {
 
         $data[$key]->decimal_price = number_format($value->price,2,'.',',');
 
-        if($_POST['availability'] == $value->availability_status) {
-            $new_data[] = $value;
-        }elseif($_POST['location'] == $value->location) {
-            $new_data[] = $value;
-        }
     }
 
     return json_encode(['data' => ($_POST['isTrue'] == 1) ? $new_data : $data]);
 
+
 }// filtering
+
+// function dashboardFiltering($db){
+//     $data = [];
+//     $SERVICES = new Services($db);
+//     foreach($SERVICES->dashboardFiltering()as $key => $value) {
+//     $data[]=["id"=>$value['type_name'],"text"=>$value['type_name']];
+//     }
+//     return json_encode($data);
+    
+// }
+
+function dashboardSelection($db){
+    $data = [];
+    $SERVICES = new Services($db);
+    foreach($SERVICES->dashboardSelection()as $key => $value){
+        $data[]=["id"=>$value['type_name'],"text"=>$value['type_name']];
+    }
+    return json_encode($data);
+}
+
+function filterDashboard($db,$filter,$istrue){
+    if ($istrue == 1){
+      $data =[];
+        foreach(json_decode(paidClient($db))as $key => $value){
+        if ($filter == $value->service_name){
+            $data[] = $value;
+        }
+      }
+    }else{
+        $data = json_decode(paidClient($db));
+    }
+    return json_encode(["data"=> $data]);
+}
+
+
 
 switch($_POST['case']) {
 
@@ -624,7 +655,7 @@ switch($_POST['case']) {
     // Get All Payment Data
     case 'persons paid': echo paidClient($db); break;
     // Reports Table Admin
-    case 'admin reports': echo json_encode(['data' => json_decode(paidClient($db))]); break;
+    case 'admin reports': echo filterDashboard($db,$_POST['filter'],$_POST['istrue']); break;
     // Reports Table Client
     case 'client reports': echo getPaymentHistory($db); break;
     // Get All Client Payments
@@ -654,6 +685,8 @@ switch($_POST['case']) {
     case 'update service': echo updateService($db); break;
     // Update Service Image
     case 'update service image': echo updateServiceImage($db); break;
+    case 'filter service': echo dashboardFiltering($db); break;
+
 
 }// switch
 

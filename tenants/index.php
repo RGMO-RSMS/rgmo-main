@@ -36,6 +36,7 @@
             require_once __DIR__ . '/../components/sidebar.php';
             require_once __DIR__ . '/../components/modals.html';
         ?>
+        
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -59,9 +60,16 @@
                     <div class="col-12">
                         <div class="card border border-primary mt-3">
                             <div class="card-header">
+                                <div class="col-12">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-new">
                                     <i class="fas fa-plus"> Add New</i>
                                 </button>
+                                    <div class="col-4 float-right">
+                                        <select name="filter_address" id="filter_address">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -114,21 +122,21 @@
             "autoWidth": false,
             "lengthChange": false,
             "order": [[6, 'desc']],
-            ajax: {
+            ajax: { 
                 url: '../controller/ProfileController.php',
                 type: 'POST',
-                data: {case: 'get all clients'}
+                data: {case: 'get all clients'},
             },
             columns: [
-
-                {title: 'Last Name', 'data': 'last_name', targets: [0]},
-                {title: 'First Name', 'data': 'first_name', targets: [1]},
-                {title: 'Address', 'data': 'address', targets: [2]},
-                {title: 'Email', 'data': 'email', targets: [3]},
-                {title: 'Phone Number', 'data': 'contact_number', targets: [4]},
-                {title: 'Location', 'data': 'location', targets: [5]},
-                {title: 'Status', 'data': 'status_id', targets: [6]},
-                {title: 'Action', 'data': 'action', targets: [7]},
+                // {title: 'numbering', 'data': 'number', targets: [0]},
+                {title: 'Last Name', 'data': 'last_name', targets: [1]},
+                {title: 'First Name', 'data': 'first_name', targets: [2]},
+                {title: 'Address', 'data': 'address', targets: [3]},
+                {title: 'Email', 'data': 'email', targets: [4]},
+                {title: 'Phone Number', 'data': 'contact_number', targets: [5]},
+                {title: 'Location', 'data': 'location', targets: [6]},
+                {title: 'Status', 'data': 'status_id', targets: [7]},
+                {title: 'Action', 'data': 'action', targets: [8]},
 
             ],
             createdRow: function(row, data, index) {
@@ -140,12 +148,9 @@
                 let btn_delete = $("<button type='button' class='btn btn-danger'> Delete </button>");
                 
                 // Location Button
-                $('td', row).eq(5).text('').append("<button class='btn btn-primary'>View</button>");
+                $('td', row).eq(6).text('').append("<button class='btn btn-primary'>View</button>");
                 
                 // Status bg color
-                $('td', row).eq(6).text('').append(data.status).addClass(data.status_class);
-
-                // Action Dropdown Menus
                 switch(data.status) {
 
                     case 'Client':
@@ -439,6 +444,26 @@
 		});// validate
 
     });// document
+
+
+    $('#filter_address').select2({
+    width: '100%',
+    theme: 'bootstrap4',
+    placeholder: 'filter address',
+    allowClear: true,
+    ajax: {
+        url: '../controller/ProfileController.php',
+        type: 'POST',
+        data:{ case:'filter selection'},
+        processResults: function (data) {
+            return {results: data};
+        }
+    }
+}).on('change', function() {
+    filter_var = $(this).val();
+    filter_true = (filter_var == "") ? 0 : 1;
+    payments_table.ajax.reload();
+});
 
 </script>
 

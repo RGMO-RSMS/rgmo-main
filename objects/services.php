@@ -414,6 +414,13 @@ class Services {
         $stmt->closeCursor();
         $stmt->execute();
     }
+    public function dashboardFiltering(){
+        $query = "SELECT type_name FROM tbl_type_of_service";
+        $stmt = $this->conn->prepare($query);
+        $stmt->closeCursor();
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }// class
 
