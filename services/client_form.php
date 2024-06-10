@@ -193,6 +193,13 @@
 
                 if(result.isConfirmed) {
 
+                    Swal.fire({
+                        title: 'Processing',
+                        text: 'System is Sending you Rental Request Notification',
+                        allowOutsideClick: false,
+                        showConfirmButton: false
+                    });
+
                     $.ajax({
                         url: '../controller/ServicesController.php',
                         type: 'POST',
@@ -221,6 +228,8 @@
                                     showConfirmButton: true
                                 });
                             }// else
+
+                            Swal.close();
 
                         }
                     });

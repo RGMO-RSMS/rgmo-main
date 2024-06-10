@@ -100,7 +100,31 @@ function client_request($db) {
     $SERVICES->client_id = $_POST['user_id'];
     $SERVICES->status = $_POST['status'];
     $SERVICES->type_id = $_POST['type_id'];
-    return json_encode($SERVICES->submitRequest());
+    $result = $SERVICES->submitRequest();
+
+    if($result['status']) {
+        // Send Email after Submission
+        $client_info = json_decode(getInfo($SERVICES->client_id, $db));
+        $SERVICES->getServiceInfo();
+        $subject = "Rental Request Submission Confirmation";
+        $message = "
+            Dear Customer ".$client_info->first_name.", <br/>
+            We are pleased to inform you that we have received your rental request for our monitoring system. <br/>
+            You request has been successfully submitted and is currently being processed. <br/>
+
+            <b> Rental Request Details: </b> <br/>
+            <ul>
+                <li>Requested Item: ".$SERVICES->type_name." </li>
+                <li>Request Date: ".date("F j, Y")." </li>
+            </ul>
+
+            We will review you request and provide you with further details shortly. If you have any questions or<br/>
+            need immediate assistance, please do not hesitate to contact our customer service team. <br/> <br/>
+            Thank you for choosing our Rental Services. We look forward to continuing to serve you.
+        ";
+        sendEmail($client_info->email, $subject, $message);
+        return json_encode($result);
+    }
 }
 
 function occupiedSlots($db) {
@@ -138,7 +162,7 @@ function submitPayment($db) {
                 // Send Email after Submission
                 $subject = "Payment Receipt for Your Rental";
                 $message = "
-                    Dear Customer, <br/>
+                    Dear Customer ".$client_info->first_name.", <br/>
                     We hope this message finds you well. Thank you for your recent payment for the Rental. <br/>
                     We are pleased to inform you that you payment has been successfully processed. <br/>
                     <b> Payment Details: </b> <br/>
@@ -178,7 +202,7 @@ function submitPayment($db) {
                 // Send Email after Submission
                 $subject = "Payment Receipt for Your Rental";
                 $message = "
-                    Dear Customer, <br/>
+                    Dear Customer ".$client_info->first_name.", <br/>
                     We hope this message finds you well. Thank you for your recent payment for the Rental. <br/>
                     We are pleased to inform you that you payment has been successfully processed. <br/>
                     <b> Payment Details: </b> <br/>
