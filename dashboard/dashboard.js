@@ -280,6 +280,13 @@ $.ajax({
                         }
                     }).then((result) => {
 
+                        Swal.fire({
+                            title: 'Processing',
+                            text: 'Sending Email Receipt to Client',
+                            allowOutsideClick: false,
+                            showConfirmButton: false
+                        });
+
                         // Submit to Payments
                         $.ajax({
                             url: '../controller/ServicesController.php',
@@ -314,6 +321,8 @@ $.ajax({
 										showConfirmButton: true
 									});
                                 }
+
+                                Swal.close();
 
                             }
                         });
