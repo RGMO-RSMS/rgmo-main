@@ -450,6 +450,13 @@ payments_table.on('select', function(e, dt, type, indexes) {
     
                     }
                 }).then((result) => {
+
+                    Swal.fire({
+                        title: 'Processing',
+                        text: 'Sending Email Receipt to Client',
+                        allowOutsideClick: false,
+                        showConfirmButton: false
+                    });
     
                     // Submit New Payment
                     $.ajax({
@@ -483,6 +490,8 @@ payments_table.on('select', function(e, dt, type, indexes) {
                                     showConfirmButton: true
                                 });
                             }
+
+                            Swal.close();
 
                         }
                     });
