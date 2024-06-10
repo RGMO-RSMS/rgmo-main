@@ -122,6 +122,22 @@
                 let filter_var = 0;
                 let filter_true = 0;
 
+                // Services List Selection
+                selectServiceName.select2({
+                    width: '100%',
+                    theme: 'bootstrap4',
+                    placeholder: 'Select Service',
+                    allowClear: true,
+                    ajax: {
+                        url: '../controller/ServicesController.php',
+                        type: 'POST',
+                        data: { case: 'services selection' },
+                        processResults: function(data) {
+                            return {results: data};
+                        }
+                    }
+                });
+
                 let services_table = $('#service-table-id').DataTable({
                     "responsive": true,
                     "autoWidth": false,

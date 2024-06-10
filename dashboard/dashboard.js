@@ -37,6 +37,7 @@ $('#year-selection').select2({
     width: '100%',
     theme: 'bootstrap4',
     placeholder: 'Select Year',
+    allowClear: true,
     ajax: {
         url: '../controller/ServicesController.php',
         type: 'POST',
