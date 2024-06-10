@@ -137,19 +137,20 @@
                         }
                     },
                     columns: [
-                        {title: 'Service Name', 'data': 'service_id', targets: [0]},
-                        {title: 'Type Name', 'data': 'type_name', targets: [1]},
-                        {title: 'Location', 'data': 'location', targets: [2]},
-                        {title: 'Price', 'data': 'decimal_price', targets: [3]},
-                        {title: 'Availability', 'data': 'availability_status', targets: [4]},
-                        {title: 'Action', 'data': 'type_id', targets: [5]}
+                        {title: 'Number', 'data': 'number', targets: [0]},
+                        {title: 'Service Name', 'data': 'service_id', targets: [1]},
+                        {title: 'Type Name', 'data': 'type_name', targets: [2]},
+                        {title: 'Location', 'data': 'location', targets: [3]},
+                        {title: 'Price', 'data': 'decimal_price', targets: [4]},
+                        {title: 'Availability', 'data': 'availability_status', targets: [5]},
+                        {title: 'Action', 'data': 'type_id', targets: [6]}
                     ],
                     createdRow: function(row, data, index) {
 
                         // Action Buttons
                         let btn_update = $("<button type='button' class='btn btn-success mr-2'> Update </button>");
                         let btn_delete = $("<button type='button' class='btn btn-danger'> Delete </button>");
-                        $('td', row).eq(5).text('').append(btn_update).append(btn_delete);
+                        $('td', row).eq(6).text('').append(btn_update).append(btn_delete);
 
                         // Update Button
                         btn_update.on('click', function(e) {

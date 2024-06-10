@@ -12,6 +12,7 @@ include_once __DIR__ . '/../objects/session.php';
 include_once __DIR__ . '/../objects/services.php';
 include_once __DIR__ . '/../objects/profile.php';
 include_once __DIR__ . '/EmailController.php';
+include_once __DIR__ . '/ProfileController.php';
 
 $DATABASE = new Database();
 $db = $DATABASE->getConnection();
@@ -117,6 +118,7 @@ function submitPayment($db) {
 
             // Insert new data in tbl_payments
             case 'Pending':
+
                 $SERVICES = new Services($db);
                 $SERVICES->price = $_POST['service_price'];
                 $SERVICES->total_paid = $_POST['payment'];
@@ -129,6 +131,27 @@ function submitPayment($db) {
                 $SERVICES->availability_status = 'no';
                 $SERVICES->date = date('Y-m-d');
                 $SERVICES->insertClientPayment();
+
+                // Client Info
+                $client_info = json_decode(getInfo($SERVICES->client_id, $db));
+                
+                // Send Email after Submission
+                $subject = "Payment Receipt for Your Rental";
+                $message = "
+                    Dear Customer, <br/>
+                    We hope this message finds you well. Thank you for your recent payment for the Rental. <br/>
+                    We are pleased to inform you that you payment has been successfully processed. <br/>
+                    <b> Payment Details: </b> <br/>
+                    <ul>
+                        <li>Amount Paid: PHP ".number_format($SERVICES->payment, 0, '', ',')." </li>
+                        <li>Remaining Balance: PHP ".number_format($SERVICES->payment_balance, 0, '', ',')." </li>
+                    </ul>
+                    We appreciate your prompt payment. If you have any questions or need further assistance, please do <br/>
+                    not hesitate to contact our customer service team. <br/> <br/>
+                    Thank you for choosing our Rental Services. We look forward to continuing to serve you.
+                ";
+                sendEmail($client_info->email, $subject, $message);
+
             break;
 
             case 'Client Payment':
@@ -149,6 +172,26 @@ function submitPayment($db) {
                     $SERVICES->updateStatus();
                 }
 
+                // Client Info
+                $client_info = json_decode(getInfo($SERVICES->client_id, $db));
+                
+                // Send Email after Submission
+                $subject = "Payment Receipt for Your Rental";
+                $message = "
+                    Dear Customer, <br/>
+                    We hope this message finds you well. Thank you for your recent payment for the Rental. <br/>
+                    We are pleased to inform you that you payment has been successfully processed. <br/>
+                    <b> Payment Details: </b> <br/>
+                    <ul>
+                        <li>Amount Paid: PHP ".number_format($SERVICES->payment, 0, '', ',')." </li>
+                        <li>Remaining Balance: PHP ".number_format($SERVICES->payment_balance, 0, '', ',')." </li>
+                    </ul>
+                    We appreciate your prompt payment. If you have any questions or need further assistance, please do <br/>
+                    not hesitate to contact our customer service team. <br/> <br/>
+                    Thank you for choosing our Rental Services. We look forward to continuing to serve you.
+                ";
+                sendEmail($client_info->email, $subject, $message);
+
             break;
 
         }// switch
@@ -165,6 +208,7 @@ function paidClient($db) {
 
     $SERVICES = new Services($db);
     $payments_data = $SERVICES->getAllPaymentData();
+    $row_counter = 1;
 
     foreach($payments_data as $key => $value) {
 
@@ -173,6 +217,7 @@ function paidClient($db) {
 
         // Get Name of Client
         $PROFILE = new Profile($db, $client_form['client_id']);
+        $payments_data[$key]['numbering'] = $row_counter;
         $payments_data[$key]['client_id'] = $client_form['client_id'];
         $payments_data[$key]['client_name'] = $PROFILE->firstname . " " . $PROFILE->lastname;
         $payments_data[$key]['client_email'] = $PROFILE->email;
@@ -191,6 +236,8 @@ function paidClient($db) {
         $payments_data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
         $payments_data[$key]['f_rbalance'] = number_format($payments_data[$key]['remaining_balance'], 0, '', ',');
         $payments_data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
+
+        $row_counter = $row_counter + 1;
 
     }// foreach
 
@@ -284,11 +331,13 @@ function getUserPayments($db) {
     $stmt->closeCursor();
     $stmt->execute();
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $row_counter = 1;
 
     foreach($data as $key => $value) {
 
         // Log Date
         $log_date = explode("-", $value["log_date"]);
+        $data[$key]['number'] = $row_counter;
 
         // No Filter Yet
         if($_POST['filter'] == 0) {
@@ -312,6 +361,8 @@ function getUserPayments($db) {
             $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
             $data[$key]['service_id'] = $SERVICE_DATA->service_id;
             $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
+            $data[$key]['f_balance'] = number_format($value['service_price'] - $value['total_paid'], 0,'', ',');
+            $data[$key]['f_payment'] = number_format($value['payment'], 0, '', ',');
 
         }
         // Equal to Year Selected
@@ -336,11 +387,15 @@ function getUserPayments($db) {
             $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
             $data[$key]['service_id'] = $SERVICE_DATA->service_id;
             $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
+            $data[$key]['f_balance'] = number_format($value['service_price'] - $value['total_paid'], 0,'', ',');
+            $data[$key]['f_payment'] = number_format($value['payment'], 0, '', ',');
 
         }
         else if($log_date[0] != $_POST['filter']) {
             $data = '';
         }
+
+        $row_counter = $row_counter + 1;
 
     }// foreach
 
@@ -583,11 +638,12 @@ function allTypesTableWithFiltering($db) {
 
     $data = json_decode(allServiceType($db));
     $new_data = [];
+    $row_counter = 1;
 
     foreach($data as $key => $value) {
-
+        $data[$key]->number = $row_counter;
         $data[$key]->decimal_price = number_format($value->price,2,'.',',');
-
+        $row_counter = $row_counter + 1;
     }
 
     return json_encode(['data' => ($_POST['isTrue'] == 1) ? $new_data : $data]);
@@ -615,13 +671,13 @@ function dashboardSelection($db){
 }
 
 function filterDashboard($db,$filter,$istrue){
-    if ($istrue == 1){
-      $data =[];
-        foreach(json_decode(paidClient($db))as $key => $value){
-        if ($filter == $value->service_name){
-            $data[] = $value;
+    if($istrue == 1){
+        $data = [];
+        foreach(json_decode(paidClient($db)) as $key => $value){
+            if ($filter == $value->service_name){
+                $data[] = $value;
+            }
         }
-      }
     }else{
         $data = json_decode(paidClient($db));
     }

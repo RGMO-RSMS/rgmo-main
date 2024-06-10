@@ -19,11 +19,12 @@ let client_payments = $('#client-payments-table').DataTable({
         }
     },
     columns: [
-        {title: 'Service', 'data': 'type_name', targets: [0]},
-        {title: 'Price', 'data': 'service_price', targets: [1]},
-        {title: 'Payment', 'data': 'payment', targets: [2]},
-        {title: 'Payment Date', 'data': 'log_date', targets: [3]},
-        {title: 'Balance', 'data': 'payment_balance', targets: [4]}
+        {title: 'Number', 'data': 'number', targets: [0]},
+        {title: 'Service', 'data': 'type_name', targets: [1]},
+        {title: 'Price', 'data': 'price', targets: [2]},
+        {title: 'Payment', 'data': 'f_payment', targets: [3]},
+        {title: 'Payment Date', 'data': 'log_date', targets: [4]},
+        {title: 'Balance', 'data': 'f_balance', targets: [5]}
     ],
     createdRow: function(row, data, index) {
         // Change Log Date Payment to Undestandable format
@@ -347,13 +348,14 @@ let payments_table = $('#admin-payment-list').DataTable({
         }
     },
     columns: [
-        {title: 'Client Name', 'data': 'client_name', targets: [0]},
-        {title: 'Email', 'data': 'client_email', targets: [1]},
-        {title: 'Phone Number', 'data': 'contact_number', targets: [2]},
-        {title: 'Service', 'data': 'service_name', targets: [3]},
-        {title: 'Service Price', 'data': 'f_price', targets: [4]},
-        {title: 'Balance', 'data': 'f_rbalance', targets: [5]},
-        {title: 'Paid', 'data': 'f_tpaid', targets: [6]}
+        {title: 'Number', 'data': 'numbering', targets: [0]},
+        {title: 'Client Name', 'data': 'client_name', targets: [1]},
+        {title: 'Email', 'data': 'client_email', targets: [2]},
+        {title: 'Phone Number', 'data': 'contact_number', targets: [3]},
+        {title: 'Service', 'data': 'service_name', targets: [4]},
+        {title: 'Service Price', 'data': 'f_price', targets: [5]},
+        {title: 'Paid', 'data': 'f_tpaid', targets: [6]},
+        {title: 'Balance', 'data': 'f_rbalance', targets: [7]}
     ],
     footerCallback: function (row, data, start, end, display) {
         
@@ -371,11 +373,11 @@ let payments_table = $('#admin-payment-list').DataTable({
         });
 
         // Display Service Price
-        api.column(4).footer().innerHTML = sum_price.toLocaleString("en-US");
-        // Display Balance
-        api.column(5).footer().innerHTML = sum_balance.toLocaleString("en-US");
+        api.column(5).footer().innerHTML = sum_price.toLocaleString("en-US");
         // Display Sum Paid
         api.column(6).footer().innerHTML = sum_paid.toLocaleString("en-US");
+        // Display Balance
+        api.column(7).footer().innerHTML = sum_balance.toLocaleString("en-US");
 
         
 
