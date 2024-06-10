@@ -9,7 +9,7 @@ let client_payments = $('#client-payments-table').DataTable({
     "autoWidth": false,
     "lengthChange": false,
     select: true,
-    "order": [[3, 'desc']],
+    "order": [[4, 'desc']],
     ajax: {
         url: '../controller/ServicesController.php',
         type: 'POST',
@@ -23,12 +23,12 @@ let client_payments = $('#client-payments-table').DataTable({
         {title: 'Service', 'data': 'type_name', targets: [1]},
         {title: 'Price', 'data': 'price', targets: [2]},
         {title: 'Payment', 'data': 'f_payment', targets: [3]},
-        {title: 'Payment Date', 'data': 'log_date', targets: [4]},
+        {title: 'Payment Date', 'data': 'log_date_format', targets: [4]},
         {title: 'Balance', 'data': 'f_balance', targets: [5]}
     ],
     createdRow: function(row, data, index) {
         // Change Log Date Payment to Undestandable format
-        $('td', row).eq(3).text('').append(data.log_date_format);
+        $('td', row).eq(4).text('').append(data.log_date_format);
     }
 });
 
