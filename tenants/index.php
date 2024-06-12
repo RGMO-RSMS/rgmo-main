@@ -115,28 +115,33 @@
         // Assign Role to js variable
         let user_id = "<?php echo $SES->id; ?>";
         let role = "<?php echo $SES->role_name; ?>";
+        let filter_var = "";
+        let filter_true = 0;
         displaySidebar(role, 'Tenants');
 
-        $('#tenants-table-id').DataTable({
+        let tenants_table = $('#tenants-table-id').DataTable({
             "responsive": true,
             "autoWidth": false,
             "lengthChange": false,
-            "order": [[6, 'desc']],
             ajax: { 
                 url: '../controller/ProfileController.php',
                 type: 'POST',
-                data: {case: 'get all clients'},
+                data: (d) => {
+                    d.case = 'filter tenants',
+                    d.filter = filter_var,
+                    d.isTrue = filter_true
+                },
             },
             columns: [
-                // {title: 'numbering', 'data': 'number', targets: [0]},
+                {title: 'Number', 'data': 'number', targets: [0]},
                 {title: 'Last Name', 'data': 'last_name', targets: [1]},
                 {title: 'First Name', 'data': 'first_name', targets: [2]},
                 {title: 'Address', 'data': 'address', targets: [3]},
                 {title: 'Email', 'data': 'email', targets: [4]},
                 {title: 'Phone Number', 'data': 'contact_number', targets: [5]},
-                {title: 'Location', 'data': 'location', targets: [6]},
-                {title: 'Status', 'data': 'status_id', targets: [7]},
-                {title: 'Action', 'data': 'action', targets: [8]},
+                // {title: 'Location', 'data': 'location', targets: [6]},
+                {title: 'Status', 'data': 'status', targets: [6]},
+                {title: 'Action', 'data': 'action', targets: [7]},
 
             ],
             createdRow: function(row, data, index) {
@@ -148,7 +153,7 @@
                 let btn_delete = $("<button type='button' class='btn btn-danger'> Delete </button>");
                 
                 // Location Button
-                $('td', row).eq(6).text('').append("<button class='btn btn-primary'>View</button>");
+                // $('td', row).eq(6).text('').append("<button class='btn btn-primary'>View</button>");
                 
                 // Status bg color
                 switch(data.status) {
@@ -443,27 +448,26 @@
 			}// submit handler
 		});// validate
 
+        $('#filter_address').select2({
+            width: '100%',
+            theme: 'bootstrap4',
+            placeholder: 'Filter Address',
+            allowClear: true,
+            ajax: {
+                url: '../controller/ProfileController.php',
+                type: 'POST',
+                data:{ case:'filter selection' },
+                processResults: function (data) {
+                    return {results: data};
+                }
+            }
+        }).on('change', function() {
+            filter_var = $(this).val();
+            filter_true = (filter_var == "") ? 0 : 1;
+            tenants_table.ajax.reload();
+        });
+
     });// document
-
-
-    $('#filter_address').select2({
-    width: '100%',
-    theme: 'bootstrap4',
-    placeholder: 'filter address',
-    allowClear: true,
-    ajax: {
-        url: '../controller/ProfileController.php',
-        type: 'POST',
-        data:{ case:'filter selection'},
-        processResults: function (data) {
-            return {results: data};
-        }
-    }
-}).on('change', function() {
-    filter_var = $(this).val();
-    filter_true = (filter_var == "") ? 0 : 1;
-    payments_table.ajax.reload();
-});
 
 </script>
 

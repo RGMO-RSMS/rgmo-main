@@ -35,9 +35,8 @@ function getInfo($id, $db) {
 function getAllClients($db) {
 
     $data = [];
-
+    $row_counter = 1;
     $q = "SELECT user_id, role_id FROM tbl_user_role WHERE role_id <> ? ";
-
     $r_id = 1;
     $st = $db->prepare($q);
     $st->bindParam(1, $r_id);
@@ -81,6 +80,10 @@ function getAllClients($db) {
 
         // action
         $row['action'] = 'action';
+
+        // number
+        $row['number'] = $row_counter;
+        $row_counter = $row_counter + 1;
         
         $data[] = $row;
         
@@ -298,31 +301,37 @@ function deleteUser($db) {
 
 }// delete user
 
-function addressSelection($db){
+function addressSelection($db) {
+
     $data = [];
     $query = "SELECT address FROM tbl_user_info";
     $stmt = $db->prepare($query);
     $stmt->closeCursor();
     $stmt->execute();
-    foreach($stmt->fetchAll(PDO::FETCH_ASSOC)as $key => $value) {
-    $data[]=["id"=>$value['address'],"text"=>$value['address']];
-        }
-        return json_encode($data);
+    $col_arr = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'address');
+    $rows = array_unique($col_arr);
+
+    foreach($rows as $key => $value) {
+        $data[] = ["id" => $value, "text" => $value];
+    }
+
+    return json_encode($data);
 }
 
-function filterAddress($db,$filter,$istrue){
-    if ($istrue == 1){
-      $data =[];
-        foreach(json_decode(getAllClients($db))as $key => $value){
-        if ($filter == $value->address){
-            $data[] = $value;
+function filterAddress($db,$filter,$istrue) {
+    $rows = json_decode(getAllClients($db));
+    if($istrue == 1) {
+        $data = new stdClass();
+        foreach($rows->data as $key => $value) {
+            if($filter == $value->address){
+                $data->data = [$value];
+            }
         }
-      }
-    }else{
+        
+    }else {
         $data = json_decode(getAllClients($db));
     }
-    return json_encode(["data"=> $data]);
-    
+    return json_encode($data);
 }
 
 
@@ -336,7 +345,7 @@ switch($_POST['case']) {
     case 'update client info': echo updateClientInfo($db); break;
     case 'delete user': echo deleteUser($db); break;
     case 'filter selection': echo addressSelection($db); break;
-
+    case 'filter tenants': echo filterAddress($db, $_POST['filter'], $_POST['isTrue']); break;
 
 }// switch
 
