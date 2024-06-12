@@ -33,6 +33,15 @@ class Services {
         $this->conn = $db;
     }
 
+    public function insertService() {
+        $query = "INSERT INTO tbl_list_of_service (service_name) VALUES(?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->service_name);
+        $stmt->closeCursor();
+        $stmt->execute();
+        return $this->conn->lastInsertId();
+    }
+
     public function get_services() {
 
         $query = "SELECT * FROM tbl_list_of_service";

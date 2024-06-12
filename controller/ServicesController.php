@@ -31,7 +31,9 @@ function service_type($db) {
 }
 
 function servicesSelection($data) {
-    $selection = [];
+    $selection = [
+        ['id' => $_POST['search'], 'text' => $_POST['search']]
+    ];
     foreach($data as $key => $value) {
         $selection[] = ['id' => $value->service_id, 'text' => $value->service_name];
     }
@@ -574,13 +576,21 @@ function addService($db) {
         if(move_uploaded_file($_FILES["service_image"]["tmp_name"], $target_file)) { 
 
             $SERVICES = new Services($db);
+            $service_id = $_POST['service_name'];
+
+            // If New List of Service is Added
+            if(!is_int($_POST['service_name'])) {
+                $SERVICES->service_name = $_POST['service_name'];
+                $service_id = $SERVICES->insertService();
+            }
+
             $SERVICES->type_name = $_POST['type_name'];
             $SERVICES->location = $_POST['location'];
             $SERVICES->price = $_POST['price'];
             $SERVICES->description = $_POST['description'];
             $SERVICES->availability_status = "yes";
             $SERVICES->service_image = $file_name;
-            $SERVICES->service_id = $_POST['service_name'];
+            $SERVICES->service_id = $service_id;
             $SERVICES->addService();
 
             return json_encode(['status' => true]);

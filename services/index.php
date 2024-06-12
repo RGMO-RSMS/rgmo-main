@@ -128,10 +128,17 @@
                     theme: 'bootstrap4',
                     placeholder: 'Select Service',
                     allowClear: true,
+                    minimumInputLength: 5,
                     ajax: {
                         url: '../controller/ServicesController.php',
                         type: 'POST',
-                        data: { case: 'services selection' },
+                        data: function(params) {
+                            var query = {
+                                search: params.term,
+                                case: 'services selection'
+                            }
+                            return query;
+                        },
                         processResults: function(data) {
                             return {results: data};
                         }
