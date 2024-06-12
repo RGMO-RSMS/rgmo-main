@@ -364,7 +364,7 @@ function getUserPayments($db) {
         $data[$key]['number'] = $row_counter;
 
         // No Filter Yet
-        if($_POST['filter'] == 0) {
+        if($_POST['filter'] == 0 || $_POST['filter'] == "") {
 
             // Get Name of Id
             $PROFILE = new Profile($db, $value['client_id']);
@@ -426,6 +426,25 @@ function getUserPayments($db) {
     return json_encode(['data' => $data]);
 
 }// get user payments
+
+function clientRentView($db) {
+
+    $SES = Session::getInstance();
+    $id = $SES->id;
+    $SERVICES = new Services($db);
+    $SERVICES->client_id = $id;
+    $data = $SERVICES->getClientRental();
+    $row_counter = 1;
+
+    foreach($data as $key => $value) {
+        $data[$key]['number'] = $row_counter;
+        $data[$key]['f_price'] = number_format($value['price'], 0, '', ',');
+        $row_counter = $row_counter + 1;
+    }// foreach
+
+    return json_encode(['data' => $data]);
+
+}// client rent view
 
 function financialReports($db) {
 
@@ -766,7 +785,8 @@ switch($_POST['case']) {
     // Update Service Image
     case 'update service image': echo updateServiceImage($db); break;
     case 'filter service': echo dashboardFiltering($db); break;
-
+    // Client Rent View
+    case 'client view': echo clientRentView($db); break;
 
 }// switch
 

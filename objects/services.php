@@ -235,6 +235,21 @@ class Services {
 
     }// get client form data
 
+    public function getClientRental() {
+        $query = "SELECT A.*, B.* 
+            FROM tbl_client_form as A
+            LEFT JOIN tbl_type_of_service as B
+            ON A.service_id = B.type_id
+            WHERE client_id = ?
+            ORDER BY A.id DESC
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->client_id);
+        $stmt->closeCursor();
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAllClientForm() {
 
         $query = "SELECT * FROM tbl_client_form";

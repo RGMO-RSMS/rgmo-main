@@ -162,6 +162,30 @@
                     <!-- Client Dashboard View -->
                     <?php if($SES->role_name == 'client') { ?>
 
+                        <!-- Rental Status Dashboard -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card border border-primary">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h4><b>Rent List</b></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-striped" id="client-rental-table"></table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /.col-12 -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Payment Summary -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card border border-primary">
@@ -227,8 +251,6 @@
 
 </body>
 </html>
-
-
 
 <?php
     }else {

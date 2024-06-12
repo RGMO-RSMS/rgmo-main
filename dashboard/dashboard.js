@@ -3,6 +3,25 @@
 let filter_var = 0;
 let filter_true = 0; //filter services variable
 
+// Client Rented View and Status
+let client_view = $('#client-rental-table').DataTable({
+    "responsive": true,
+    "autoWidth": false,
+    "lengthChange": false,
+    ajax: {
+        url: '../controller/ServicesController.php',
+        type: 'POST',
+        data: (d) => { d.case = 'client view' }
+    },
+    columns: [
+        {title: 'Number', 'data': 'number', targets: [0]},
+        {title: 'Service', 'data': 'type_name', targets: [1]},
+        {title: 'Price', 'data': 'f_price', targets: [2]},
+        {title: 'Location', 'data': 'location', targets: [3]},
+        {title: 'Status', 'data': 'status', targets: [4]}
+    ]
+});
+
 // Client Dashboard
 let client_payments = $('#client-payments-table').DataTable({
     "responsive": true,
@@ -23,7 +42,7 @@ let client_payments = $('#client-payments-table').DataTable({
         {title: 'Service', 'data': 'type_name', targets: [1]},
         {title: 'Price', 'data': 'price', targets: [2]},
         {title: 'Payment', 'data': 'f_payment', targets: [3]},
-        {title: 'Payment Date', 'data': 'log_date_format', targets: [4]},
+        {title: 'Payment Date', 'data': 'log_date', targets: [4]},
         {title: 'Balance', 'data': 'f_balance', targets: [5]}
     ],
     createdRow: function(row, data, index) {
@@ -32,7 +51,7 @@ let client_payments = $('#client-payments-table').DataTable({
     }
 });
 
-// Year Selection for Client Dashboard
+// Filter Year Selection for Client Dashboard
 $('#year-selection').select2({
     width: '100%',
     theme: 'bootstrap4',
@@ -48,6 +67,7 @@ $('#year-selection').select2({
     }
 }).on('change', function() {
     filter_var = $(this).val();
+    console.log("year selecting", filter_var);
     client_payments.ajax.reload();
 });
 
@@ -281,53 +301,56 @@ $.ajax({
                         }
                     }).then((result) => {
 
-                        Swal.fire({
-                            title: 'Processing',
-                            text: 'Sending Email Receipt to Client',
-                            allowOutsideClick: false,
-                            showConfirmButton: false
-                        });
+                        if(result.isConfirmed) {
 
-                        // Submit to Payments
-                        $.ajax({
-                            url: '../controller/ServicesController.php',
-                            type: 'POST',
-                            data: {
-                                case: 'submit client payment',
-                                client_id: result.value.client_id,
-                                form_id: result.value.form_id,
-                                service_id: result.value.service_id,
-                                payment: result.value.payment,
-                                service_price: result.value.service_price,
-                                status: result.value.status
-                            },
-                            success: function(response) {
-
-                                if(response.status) {
-
-                                    Swal.fire({
-										position: 'top',
-										icon: 'success',
-										title: 'Payment Successful!',
-									}).then(function() {
-										location.reload();
-									});
-
+                            Swal.fire({
+                                title: 'Processing',
+                                text: 'Sending Email Receipt to Client',
+                                allowOutsideClick: false,
+                                showConfirmButton: false
+                            });
+    
+                            // Submit to Payments
+                            $.ajax({
+                                url: '../controller/ServicesController.php',
+                                type: 'POST',
+                                data: {
+                                    case: 'submit client payment',
+                                    client_id: result.value.client_id,
+                                    form_id: result.value.form_id,
+                                    service_id: result.value.service_id,
+                                    payment: result.value.payment,
+                                    service_price: result.value.service_price,
+                                    status: result.value.status
+                                },
+                                success: function(response) {
+    
+                                    if(response.status) {
+    
+                                        Swal.fire({
+                                            position: 'top',
+                                            icon: 'success',
+                                            title: 'Payment Successful!',
+                                        }).then(function() {
+                                            location.reload();
+                                        });
+    
+                                    }
+                                    else {
+                                        Swal.fire({
+                                            position: 'top',
+                                            icon: 'warning',
+                                            title: response.message,
+                                            showConfirmButton: true
+                                        });
+                                    }
+    
+                                    Swal.close();
+    
                                 }
-                                else {
-                                    Swal.fire({
-										position: 'top',
-										icon: 'warning',
-										title: response.message,
-										showConfirmButton: true
-									});
-                                }
+                            });
 
-                                Swal.close();
-
-                            }
-                        });
-                        
+                        }// if confirmed
 
                     }); // sweet alert end
 
