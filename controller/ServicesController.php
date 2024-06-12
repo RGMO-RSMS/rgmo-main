@@ -506,20 +506,21 @@ function chartReport($db) {
 
     foreach($data as $key => $value) {
 
-        // Explode Date
-        $date = explode("-", $value["date"]);
-        $y = $date[0];
-        $m = $date[1];
-        
-        foreach($months as $k => $month) { 
+        if(!is_null($value['date'])) {
+            // Date
+            $y = date("Y", strtotime($value['date']));
+            $m = date("m", strtotime($value['date']));
+            
+            foreach($months as $k => $month) { 
 
-            // If Data Year is Equal to Current Year
-            if($y == $current_year) {
-                // Same Month
-                if($m == $k + 1) { $months[$k]['value'] = $month['value'] + 1; }
-            }
-    
-        }// foreach months
+                // If Data Year is Equal to Current Year
+                if($y == $current_year) {
+                    // Same Month
+                    if($m == $k + 1) { $months[$k]['value'] = $month['value'] + 1; }
+                }
+        
+            }// foreach months
+        }// date
 
     }// foreach data
 
