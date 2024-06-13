@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2024 at 01:57 PM
+-- Generation Time: Jun 13, 2024 at 09:20 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -35,6 +35,13 @@ CREATE TABLE `tbl_client_form` (
   `service_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_client_form`
+--
+
+INSERT INTO `tbl_client_form` (`id`, `client_id`, `status`, `date`, `service_id`) VALUES
+(24, 26, 'Pending', NULL, 48);
+
 -- --------------------------------------------------------
 
 --
@@ -55,7 +62,8 @@ INSERT INTO `tbl_list_of_service` (`service_id`, `service_name`) VALUES
 (2, 'Staff Housing'),
 (3, 'Stalls and Slots for Canteen/Cafeteria'),
 (4, 'Skim of Palay'),
-(5, 'Biazon Hostel');
+(5, 'Biazon Hostel'),
+(9, 'New Item');
 
 -- --------------------------------------------------------
 
@@ -126,11 +134,12 @@ CREATE TABLE `tbl_sidebar` (
 INSERT INTO `tbl_sidebar` (`id`, `element_class`, `element_uri`, `element_text`) VALUES
 (1, 'fas fa-tachometer-alt', '../dashboard/', 'Dashboard'),
 (2, 'fas fa-map-marker', '../location/', 'Location'),
-(3, 'fas fa-user', '../tenants/', 'Tenants'),
+(3, 'fas fa-user', '../customers/', 'Customers'),
 (4, 'fas fa-user', '../profile/', 'Profile'),
 (5, 'fas fa-bolt', '../services/', 'Services'),
 (6, 'fas fa-chart-bar', '../reports/', 'Reports'),
-(7, 'fas fa-question-circle', '../about/', 'About');
+(7, 'fas fa-question-circle', '../about/', 'About'),
+(8, 'fas fa-folder', '../rentals/', 'Rentals');
 
 -- --------------------------------------------------------
 
@@ -196,7 +205,8 @@ INSERT INTO `tbl_type_of_service` (`type_id`, `type_name`, `location`, `price`, 
 (47, 'Staff Housing 18', 'Isabela State University', 10000, 'Housing for Staffs', 'yes', 'staffhousing18.jpg', 2),
 (48, 'Staff Housing 19', 'Isabela State University', 10000, 'Housing for Staffs', 'yes', 'staffhousing19.jpg', 2),
 (49, 'Staff Housing 20', 'Isabela State University', 10000, 'Housing for Staffs', 'yes', 'staffhousing20.jpg', 2),
-(51, 'bago', 'dun', 123, 'bago yan', 'yes', 'IMG_20240214174613095.jpg', 3);
+(51, 'bago', 'dun', 123, 'bago yan', 'yes', 'IMG_20240214174613095.jpg', 3),
+(52, 'New', 'Paris', 123123123, 'new item', 'yes', 'IMG_20210130_175326.jpg', 9);
 
 -- --------------------------------------------------------
 
@@ -228,7 +238,9 @@ INSERT INTO `tbl_user_info` (`user_id`, `first_name`, `last_name`, `middle_name`
 (20, 'Juan', 'Dela Cruz', 'De', 'Manila', '09549848488', 'Male', 'sample 1.png', 'Single'),
 (21, 'Gorgonio', 'Magalpoc', 'Palo', 'Intramuros', '09849848978', 'Male', 'sample 6.png', 'Married'),
 (22, 'Stephen', 'Curry', 'Wardell', 'USA', '09849878979', 'Male', 'sample 2.png', 'Married'),
-(23, 'Frank', 'Stein', 'N', 'Europe', '09849879878', 'Male', 'sample 4.png', 'Married');
+(23, 'Frank', 'Stein', 'N', 'Europe', '09849879878', 'Male', 'sample 4.png', 'Married'),
+(25, 'Jinwoo', 'Sung', 'J', 'Ahjin Guild', '09987987987', 'Male', 'IMG20210314001045.jpg', 'Single'),
+(26, 'Justin', 'Vasquez', 'Magdirila', 'Just me', '09348762846', 'Male', '', 'Single');
 
 -- --------------------------------------------------------
 
@@ -254,7 +266,9 @@ INSERT INTO `tbl_user_login` (`email`, `password`, `user_id`) VALUES
 ('juan@gmail.com', '$2y$10$k7SbwSVvLiPIJ4OuMMh20uSZ5WEC84qktE/CYleqkSqhuCrHgWME.', 20),
 ('magalpoc@gmail.com', '$2y$10$WqEkdP5iNQkhJlg8mHLcNupTUTqxmaE7LZ/itz12H8tjaUGlIb93m', 21),
 ('curry@gmail.com', '$2y$10$PRHmPByS1geYvB.ZeBInr.VZwAVGNceeuP9S6KxYxjms9L8r5r5Ke', 22),
-('frank@gmail.com', '$2y$10$U2ajgy6UW/.DfKBxWiQytegXD8RxYQBCS4/c3rmI91WZbVQCMpM8O', 23);
+('frank@gmail.com', '$2y$10$U2ajgy6UW/.DfKBxWiQytegXD8RxYQBCS4/c3rmI91WZbVQCMpM8O', 23),
+('ahjin@gmail.com', '$2y$10$S.fLIOnuSptquhNydbmvLenSApfTlWIHgKEvNI2hpnUxrFNiX7pHO', 25),
+('justin@gmail.com', '', 26);
 
 -- --------------------------------------------------------
 
@@ -279,7 +293,8 @@ INSERT INTO `tbl_user_role` (`user_id`, `role_id`) VALUES
 (20, 2),
 (21, 2),
 (22, 2),
-(23, 3);
+(23, 3),
+(25, 2);
 
 --
 -- Indexes for dumped tables
@@ -341,13 +356,13 @@ ALTER TABLE `tbl_user_info`
 -- AUTO_INCREMENT for table `tbl_client_form`
 --
 ALTER TABLE `tbl_client_form`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_list_of_service`
 --
 ALTER TABLE `tbl_list_of_service`
-  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_payments`
@@ -371,19 +386,19 @@ ALTER TABLE `tbl_role`
 -- AUTO_INCREMENT for table `tbl_sidebar`
 --
 ALTER TABLE `tbl_sidebar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_type_of_service`
 --
 ALTER TABLE `tbl_type_of_service`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_info`
 --
 ALTER TABLE `tbl_user_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
