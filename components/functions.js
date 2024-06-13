@@ -3,7 +3,7 @@
 
 function displaySidebar(role, page) {
 
-    let sidebar_id = (role == 'client') ? [1, 4, 5, 7] : [1, 2, 5, 3, 6];
+    let sidebar_id = (role == 'client') ? [1, 4, 5, 7] : [1, 2, 8, 5, 3, 6];
         
     $.ajax({
         url: '../controller/SidebarController.php',
@@ -68,6 +68,51 @@ function displaySidebar(role, page) {
                     if(element.element_text == page) { a.addClass('active') }
 
                 }// reports
+                // Rentals
+                else if(element.element_text == "Rentals") {
+
+                    // Variables
+                    let a = $("<a href='#' class='nav-link'>");
+                    let angle_i = $("<i class='fas fa-angle-left right'></i>");
+                    let tree_ul = $("<ul class='nav nav-treeview'></ul>");
+
+                    // Append Reports Sidebar
+                    p.text(" " + element.element_text).append(angle_i);
+                    i.addClass(element.element_class);
+                    a.append(i).append(p);
+
+                    // Treeview
+                    const tree_arr = [
+                        [" New", "new", "fas fa-file"]
+                    ];
+
+                    // Treeview Data
+                    tree_arr.forEach(element => {
+                        
+                        let tree_li = $("<li class='nav-item'></li>");
+                        let tree_a = $("<a href='../rentals/?link="+element[1]+"' class='nav-link'></a>");
+                        let tree_i = $("<i class='"+element[2]+"'></i>");
+                        let tree_p = $("<p>"+element[0]+"</p>");
+
+                        // Active Class
+                        if(GetURLParameter('link') == element[1]) {  
+                            tree_a.addClass('active');
+                            // isReports = true;
+                        }
+
+                        tree_a.append(tree_i).append(tree_p);
+                        tree_li.append(tree_a);
+                        tree_ul.append(tree_li);
+
+                    });// foreach
+
+                    // Append List to a tag Reports
+                    li.append(a).append(tree_ul);
+
+                    // Check if what sidebar will be active
+                    if(element.element_text == page) { a.addClass('active') }
+
+                }// rentals
                 else {
 
                     let a = $("<a href='" + element.element_uri + "' class='nav-link'></a>");
