@@ -17,6 +17,11 @@
 <style>
   .bg-home {
     background-color: #f4eeff;
+    background-image: url('includes/images/bg-main.jpg');
+    background-size: cover;
+  }
+  .carousel-img {
+    object-fit: cover;
   }
 </style>
 
@@ -25,7 +30,7 @@
   <div class="card">
     <div class="row">
 
-      <div class="col-6 mt-1"><img src="dist/img/RGMO-RSMS.png" alt="Logo Here" class="brand-image img-circle elevation-1" height=50px weight=50px> <b>RGMO-RSMS</b></div>
+      <div class="col-6 mt-1"><img src="dist/img/RGMO-RSMS.png" alt="Logo Here" class="brand-image img-circle elevation-1" style="height: 35px; width: 35px;"> <b>RGMO-RSMS</b></div>
 
       <div class="col-6">
         <!-- Navbar -->
@@ -60,8 +65,8 @@
   <div class="row justify-content-center mt-5"><h2><b>Resource Generation Management Office</b> <i>(RGMO)</i> <b>Rental Services Monitoring System</b></h2></div>
   <!-- <div class="row justify-content-center"><h2></h2></div> -->
 
-  <div class="row justify-content-center">
-    <div id="carousel-main-div" class="carousel slide border border-primary mt-5" style="height: 300px; width: 400px;" data-ride="carousel">
+  <div class="row justify-content-center w-100">
+    <div id="carousel-main-div" class="carousel slide mt-5 shadow p-1 bg-white mb-5 rounded" style="width: 70%;" data-ride="carousel">
       <ol class="carousel-indicators"></ol>
       <div class="carousel-inner"></div>
       <a class="carousel-control-prev" href="#carousel-main-div" role="button" data-slide="prev">
@@ -75,7 +80,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-center mt-5"><h4><b>Available Services</b></h4></div>
+  <div class="row justify-content-center mt-5"><h4><b class="text-light">Available Services</b></h4></div>
   <div class="row w-100 justify-content-center" id="services-display-div"></div>
 
 <!-- REQUIRED SCRIPTS -->
@@ -101,16 +106,16 @@
       url: 'controller/ServicesController.php',
       type: 'POST',
       data: {case: 'all types'},
-      success: function(data) {
+      success: function(response) {
 
-        for(index = data.length - 1, counter = 0; index >= 0; index--, counter++ ) {
+        for(index = response.data.length - 1, counter = 0; index >= 0; index--, counter++ ) {
           
           let li_target = $("<li data-target='#carousel-main-div' data-slide-to='"+counter+"'></li>");
           let carousel_item = $("<div class='carousel-item'></div>");
-          let img = $("<img class='d-block' style='height: 300px; width: '400px;' src='includes/images/"+data[index].service_image+"' alt='"+data[index].type_name+"'>")
+          let img = $("<img class='d-block' style='width:100%; height: 400px;' src='includes/images/"+response.data[index].service_image+"' alt='"+response.data[index].type_name+"'>");
           let div_caption = $("<div class='carousel-caption d-none d-md-block'></div>");
-          let h6 = $("<h6><b>"+data[index].type_name+"</b></h6>");
-          let p = $("<p>Service "+data[index].service_id+"</p>");
+          let h6 = $("<h6><b>"+response.data[index].type_name+"</b></h6>");
+          let p = $("<p>Service "+response.data[index].service_id+"</p>");
 
           // Carousel Indicators
           if(counter == 0) { li_target.addClass('active') }
