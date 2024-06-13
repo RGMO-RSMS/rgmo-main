@@ -121,10 +121,11 @@ function request_account() {
 
         $DATABASE = new Database();
         $DATABASE->getConnection();
+        ($_POST['type_id'] == 0) ? throw new Exception('No Service Selected') : '';
 
         // Save Client Info
-        $info_query = "INSERT INTO tbl_user_info (first_name, last_name, middle_name, address, contact_number, civil_status)
-            VALUES(?,?,?,?,?,?)";
+        $info_query = "INSERT INTO tbl_user_info (first_name, last_name, middle_name, address, contact_number, sex, civil_status)
+            VALUES(?,?,?,?,?,?,?)";
         
         $info_stmt = $DATABASE->connection->prepare($info_query);
         $info_stmt->bindParam(1, $_POST['fname']);
@@ -132,7 +133,8 @@ function request_account() {
         $info_stmt->bindParam(3, $_POST['mname']);
         $info_stmt->bindParam(4, $_POST['address']);
         $info_stmt->bindParam(5, $_POST['contact']);
-        $info_stmt->bindParam(6, $_POST['civil_status']);
+        $info_stmt->bindParam(6, $_POST['sex']);
+        $info_stmt->bindParam(7, $_POST['civil_status']);
         $info_stmt->closeCursor();
         $info_stmt->execute();
 
@@ -157,6 +159,7 @@ function request_account() {
         $stmt->closeCursor();
         $stmt->execute();
 
+        // Send Email
         // Send Email to Admin For Notification
 
         return json_encode(['status' => true]);

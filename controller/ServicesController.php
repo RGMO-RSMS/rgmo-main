@@ -60,8 +60,18 @@ function deleteService($db) {
 }
 
 function allServiceType($db) {
+
+    $h = 200;
+    $folder_path = __DIR__ . '/../includes/images/';
     $SERVICES = new Services($db);
-    return json_encode($SERVICES->getAllType());
+    $data = $SERVICES->getAllType();
+    foreach($data as $key => $value) {
+        $size = explode(" ", getimagesize($folder_path . $value['service_image'])[3]);
+        $height = (int)filter_var($size[1], FILTER_SANITIZE_NUMBER_INT);
+        $h = ($height < $h) ? $height : $h;
+        $data[$key]['f_price'] = number_format($value['price'], 0, '', ',');
+    }
+    return json_encode(['data' => $data, 'height' => $h]);
 }
 
 function pending_request($db) {
@@ -690,7 +700,7 @@ function updateServiceImage($db) {
 
 function allTypesTableWithFiltering($db) {
 
-    $data = json_decode(allServiceType($db));
+    $data = json_decode(allServiceType($db))->data;
     $new_data = [];
     $row_counter = 1;
 
