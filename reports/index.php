@@ -151,7 +151,8 @@
                                     {title: 'Price', 'data': 'f_price', targets: [2]},
                                     {title: 'Total Paid', 'data': 'f_tpaid', targets: [3]},
                                     {title: 'Paid in Transaction', 'data': 'f_payment', targets: [4]},
-                                    {title: 'Balance', 'data': 'f_pbalance', targets: [5]}
+                                    {title: 'Balance', 'data': 'f_pbalance', targets: [5]},
+                                    {title: 'Payment Date', 'data': 'f_ldate', targets: [6]}
                                 ]
                             }).buttons().container().appendTo('#admin-reports-table_wrapper .col-md-6:eq(0)');
                         break;

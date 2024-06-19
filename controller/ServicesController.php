@@ -240,11 +240,14 @@ function submitPayment($db) {
 
 }// submit payment
 
-function paidClient($db) {
+function allClientPayments($db) {
 
     $SERVICES = new Services($db);
-    $payments_data = $SERVICES->getAllPaymentData();
+    $payments_data = $SERVICES->getAllPaymentLogs();
     $row_counter = 1;
+    $SES = Session::getInstance();
+    $id = $SES->id;
+    $admin_profile = json_decode(getInfo($id, $db));
 
     foreach($payments_data as $key => $value) {
 
@@ -258,6 +261,7 @@ function paidClient($db) {
         $payments_data[$key]['client_name'] = $PROFILE->firstname . " " . $PROFILE->lastname;
         $payments_data[$key]['client_email'] = $PROFILE->email;
         $payments_data[$key]['contact_number'] = $PROFILE->contact_number;
+        $payments_data[$key]['encoder_name'] = $admin_profile->first_name;
 
         // Get Service Data
         $SERVICES->type_id = $client_form['service_id'];
@@ -272,6 +276,53 @@ function paidClient($db) {
         $payments_data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
         $payments_data[$key]['f_rbalance'] = number_format($payments_data[$key]['remaining_balance'], 0, '', ',');
         $payments_data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
+        $payments_data[$key]['f_ldate'] = date("F j, Y", strtotime($value['log_date']));
+
+        $row_counter = $row_counter + 1;
+
+    }// foreach
+
+    return json_encode($payments_data);
+
+}// paid client
+
+function paidClient($db) {
+
+    $SERVICES = new Services($db);
+    $payments_data = $SERVICES->getAllPaymentData();
+    $row_counter = 1;
+    $SES = Session::getInstance();
+    $id = $SES->id;
+    $admin_profile = json_decode(getInfo($id, $db));
+
+    foreach($payments_data as $key => $value) {
+
+        $SERVICES->form_id = $value['form_id'];
+        $client_form = $SERVICES->getClientFormData();
+
+        // Get Name of Client
+        $PROFILE = new Profile($db, $client_form['client_id']);
+        $payments_data[$key]['numbering'] = $row_counter;
+        $payments_data[$key]['client_id'] = $client_form['client_id'];
+        $payments_data[$key]['client_name'] = $PROFILE->firstname . " " . $PROFILE->lastname;
+        $payments_data[$key]['client_email'] = $PROFILE->email;
+        $payments_data[$key]['contact_number'] = $PROFILE->contact_number;
+        $payments_data[$key]['encoder_name'] = $admin_profile->first_name;
+
+        // Get Service Data
+        $SERVICES->type_id = $client_form['service_id'];
+        $SERVICES->getServiceInfo();
+        $payments_data[$key]['service_id'] = $client_form['service_id'];
+        $payments_data[$key]['service_name'] = $SERVICES->type_name;
+        $payments_data[$key]['location'] = $SERVICES->location;
+        $payments_data[$key]['remaining_balance'] = $value['service_price'] - $value['total_paid'];
+        $payments_data[$key]['status'] = $client_form['status'];
+
+        // Format to Money Format
+        $payments_data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
+        $payments_data[$key]['f_rbalance'] = number_format($payments_data[$key]['remaining_balance'], 0, '', ',');
+        $payments_data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
+        $payments_data[$key]['f_ldate'] = date("F j, Y", strtotime($client_form['date']));
 
         $row_counter = $row_counter + 1;
 
@@ -342,6 +393,7 @@ function getClientPayments($db) {
         $data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
         $data[$key]['f_payment'] = number_format($value['payment'], 0, '', ',');
         $data[$key]['f_pbalance'] = number_format($value['payment_balance'], 0, '', ',');
+        $data[$key]['f_ldate'] = date("F j, Y", strtotime($value['log_date']));
 
     }// foreach
 
@@ -735,9 +787,9 @@ function dashboardSelection($db){
 }
 
 function filterDashboard($db,$filter,$istrue){
-    if($istrue == 1){
+    if($istrue == 1) {
         $data = [];
-        foreach(json_decode(paidClient($db)) as $key => $value){
+        foreach(json_decode(paidClient($db)) as $key => $value) {
             if ($filter == $value->service_name){
                 $data[] = $value;
             }

@@ -386,9 +386,11 @@ let payments_table = $('#admin-payment-list').DataTable({
         {title: 'Email', 'data': 'client_email', targets: [2]},
         {title: 'Phone Number', 'data': 'contact_number', targets: [3]},
         {title: 'Service', 'data': 'service_name', targets: [4]},
-        {title: 'Service Price', 'data': 'f_price', targets: [5]},
-        {title: 'Paid', 'data': 'f_tpaid', targets: [6]},
-        {title: 'Balance', 'data': 'f_rbalance', targets: [7]}
+        {title: 'Encoder', 'data': 'encoder_name', targets: [5]},
+        {title: 'Payment Date', 'data': 'f_ldate', targets: [6]},
+        {title: 'Service Price', 'data': 'f_price', targets: [7]},
+        {title: 'Paid', 'data': 'f_tpaid', targets: [8]},
+        {title: 'Balance', 'data': 'f_rbalance', targets: [9]}
     ],
     footerCallback: function (row, data, start, end, display) {
         
@@ -406,11 +408,11 @@ let payments_table = $('#admin-payment-list').DataTable({
         });
 
         // Display Service Price
-        api.column(5).footer().innerHTML = sum_price.toLocaleString("en-US");
+        api.column(7).footer().innerHTML = sum_price.toLocaleString("en-US");
         // Display Sum Paid
-        api.column(6).footer().innerHTML = sum_paid.toLocaleString("en-US");
+        api.column(8).footer().innerHTML = sum_paid.toLocaleString("en-US");
         // Display Balance
-        api.column(7).footer().innerHTML = sum_balance.toLocaleString("en-US");
+        api.column(9).footer().innerHTML = sum_balance.toLocaleString("en-US");
 
         
 
