@@ -199,3 +199,8 @@ function invalidImageType(element_id) {
     });// on change
 
 }// invalid image type
+
+function numberFormat(value) {
+    var parts = value.toFixed(2).split(".");
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+}

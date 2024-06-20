@@ -90,7 +90,8 @@ function pending_request($db) {
         $SERVICES->type_id = $value['service_id'];
         $SERVICES->getServiceInfo();
         $pending_request[$key]['service_name'] = $SERVICES->type_name;
-        $pending_request[$key]['service_price'] = $SERVICES->price;
+        $pending_request[$key]['service_price'] = $SERVICES->true_price;
+        $pending_request[$key]['f_price'] = number_format($SERVICES->true_price, 2, '.', ',');
 
         // Action
         $pending_request[$key]['action'] = 'buttons';
@@ -104,7 +105,11 @@ function pending_request($db) {
 function getServiceAvailability($db) {
     $SERVICES = new Services($db);
     $SERVICES->availability_status = $_POST['status'];
-    return json_encode($SERVICES->getServiceAvailability());
+    $data = $SERVICES->getServiceAvailability();
+    foreach($data as $key => $value) {
+        $data[$key]['f_price'] = number_format($value['price'], 2, '.', ',');
+    }
+    return json_encode($data);
 }
 
 function client_request($db) {
@@ -142,7 +147,11 @@ function client_request($db) {
 function occupiedSlots($db) {
     $SERVICES = new Services($db);
     $SERVICES->availability_status = $_POST['availability'];
-    return json_encode($SERVICES->getServiceAvailability());
+    $data = $SERVICES->getServiceAvailability();
+    foreach($data as $key => $value) {
+        $data[$key]['f_price'] = number_format($value['price'], 2, '.', ',');
+    }
+    return json_encode($data);
 }
 
 function submitPayment($db) {
@@ -294,6 +303,9 @@ function paidClient($db) {
     $SES = Session::getInstance();
     $id = $SES->id;
     $admin_profile = json_decode(getInfo($id, $db));
+    $sum_price = 0;
+    $sum_paid = 0;
+    $sum_balance = 0;
 
     foreach($payments_data as $key => $value) {
 
@@ -319,10 +331,10 @@ function paidClient($db) {
         $payments_data[$key]['status'] = $client_form['status'];
 
         // Format to Money Format
-        $payments_data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
-        $payments_data[$key]['f_rbalance'] = number_format($payments_data[$key]['remaining_balance'], 0, '', ',');
-        $payments_data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
         $payments_data[$key]['f_ldate'] = date("F j, Y", strtotime($client_form['date']));
+        $payments_data[$key]['f_price'] = number_format($value['service_price'], 2, '.', ',');
+        $payments_data[$key]['f_tpaid'] = number_format($value['total_paid'], 2, '.', ',');
+        $payments_data[$key]['f_rbalance'] = number_format($payments_data[$key]['remaining_balance'], 2, '.', ',');
 
         $row_counter = $row_counter + 1;
 
@@ -389,10 +401,10 @@ function getClientPayments($db) {
         $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
 
         // Format to Money Format
-        $data[$key]['f_price'] = number_format($value['service_price'], 0, '', ',');
-        $data[$key]['f_tpaid'] = number_format($value['total_paid'], 0, '', ',');
-        $data[$key]['f_payment'] = number_format($value['payment'], 0, '', ',');
-        $data[$key]['f_pbalance'] = number_format($value['payment_balance'], 0, '', ',');
+        $data[$key]['f_price'] = number_format($value['service_price'], 2, '.', ',');
+        $data[$key]['f_tpaid'] = number_format($value['total_paid'], 2, '.', ',');
+        $data[$key]['f_payment'] = number_format($value['payment'], 2, '.', ',');
+        $data[$key]['f_pbalance'] = number_format($value['payment_balance'], 2, '.', ',');
         $data[$key]['f_ldate'] = date("F j, Y", strtotime($value['log_date']));
 
     }// foreach
@@ -449,8 +461,9 @@ function getUserPayments($db) {
             $data[$key]['availability_status'] = $SERVICE_DATA->availability_status;
             $data[$key]['service_id'] = $SERVICE_DATA->service_id;
             $data[$key]['balance'] = $value['service_price'] - $value['total_paid'];
-            $data[$key]['f_balance'] = number_format($value['service_price'] - $value['total_paid'], 0,'', ',');
-            $data[$key]['f_payment'] = number_format($value['payment'], 0, '', ',');
+            $data[$key]['f_price'] = number_format($value['service_price'], 2,'.',',');
+            $data[$key]['f_balance'] = number_format($value['service_price'] - $value['total_paid'], 2,'.', ',');
+            $data[$key]['f_payment'] = number_format($value['payment'], 2, '.', ',');
 
         }
         // Equal to Year Selected
@@ -502,7 +515,7 @@ function clientRentView($db) {
 
     foreach($data as $key => $value) {
         $data[$key]['number'] = $row_counter;
-        $data[$key]['f_price'] = number_format($value['price'], 0, '', ',');
+        $data[$key]['f_price'] = number_format($value['price'], 2, '.', ',');
         $row_counter = $row_counter + 1;
     }// foreach
 

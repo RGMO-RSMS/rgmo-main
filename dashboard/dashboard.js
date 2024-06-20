@@ -40,7 +40,7 @@ let client_payments = $('#client-payments-table').DataTable({
     columns: [
         {title: 'Number', 'data': 'number', targets: [0]},
         {title: 'Service', 'data': 'type_name', targets: [1]},
-        {title: 'Price', 'data': 'price', targets: [2]},
+        {title: 'Price', 'data': 'f_price', targets: [2]},
         {title: 'Payment', 'data': 'f_payment', targets: [3]},
         {title: 'Payment Date', 'data': 'log_date', targets: [4]},
         {title: 'Balance', 'data': 'f_balance', targets: [5]}
@@ -67,7 +67,6 @@ $('#year-selection').select2({
     }
 }).on('change', function() {
     filter_var = $(this).val();
-    console.log("year selecting", filter_var);
     client_payments.ajax.reload();
 });
 
@@ -136,7 +135,7 @@ $.ajax({
                     "data": data,
                     columns: [
                         {data: 'type_name'}, {data: 'location'},
-                        {data: 'price'}, {data: 'description'}
+                        {data: 'f_price'}, {data: 'description'}
                     ]
                 });
 
@@ -177,8 +176,8 @@ $.ajax({
                         {data: 'client_name'}, 
                         {data: 'service_name'}, 
                         {data: 'location'},
-                        {data: 'service_price'},
-                        {data: 'total_paid'}
+                        {data: 'f_price'},
+                        {data: 'f_tpaid'}
                     ]
                 });    
     
@@ -216,7 +215,7 @@ $.ajax({
                     "lengthChange": false,
                     "data": data,
                     columns: [
-                        {data: 'type_name'}, {data: 'location'}, {data: 'price'}
+                        {data: 'type_name'}, {data: 'location'}, {data: 'f_price'}
                     ]
                 });    
     
@@ -257,7 +256,7 @@ $.ajax({
                     columns: [
                         {data: 'client_name'}, 
                         {data: 'service_name'}, 
-                        {data: 'service_price'}, 
+                        {data: 'f_price'}, 
                         {data: 'status'}
                     ]
                 });// table end
@@ -408,11 +407,11 @@ let payments_table = $('#admin-payment-list').DataTable({
         });
 
         // Display Service Price
-        api.column(7).footer().innerHTML = sum_price.toLocaleString("en-US");
+        api.column(7).footer().innerHTML = numberFormat(sum_price);
         // Display Sum Paid
-        api.column(8).footer().innerHTML = sum_paid.toLocaleString("en-US");
+        api.column(8).footer().innerHTML = numberFormat(sum_paid);
         // Display Balance
-        api.column(9).footer().innerHTML = sum_balance.toLocaleString("en-US");
+        api.column(9).footer().innerHTML = numberFormat(sum_balance);
 
         
 
