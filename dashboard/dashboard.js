@@ -476,50 +476,53 @@ payments_table.on('select', function(e, dt, type, indexes) {
                     }
                 }).then((result) => {
 
-                    Swal.fire({
-                        title: 'Processing',
-                        text: 'Sending Email Receipt to Client',
-                        allowOutsideClick: false,
-                        showConfirmButton: false
-                    });
+                    if(result.isConfirmed) {
+                        
+                        Swal.fire({
+                            title: 'Processing',
+                            text: 'Sending Email Receipt to Client',
+                            allowOutsideClick: false,
+                            showConfirmButton: false
+                        });
+        
+                        // Submit New Payment
+                        $.ajax({
+                            url: '../controller/ServicesController.php',
+                            type: 'POST',
+                            data: {
+                                case: 'submit client payment', payment: result.value.payment,
+                                client_id: result.value.client_id, payment_id: result.value.payment_id,
+                                form_id: result.value.form_id, service_id: result.value.service_id,
+                                service_price: result.value.service_price, remaining_balance: result.value.remaining_balance,
+                                total_paid: result.value.total_paid, status: result.value.status
+                            },
+                            success: function(response) {
     
-                    // Submit New Payment
-                    $.ajax({
-                        url: '../controller/ServicesController.php',
-                        type: 'POST',
-                        data: {
-                            case: 'submit client payment', payment: result.value.payment,
-                            client_id: result.value.client_id, payment_id: result.value.payment_id,
-                            form_id: result.value.form_id, service_id: result.value.service_id,
-                            service_price: result.value.service_price, remaining_balance: result.value.remaining_balance,
-                            total_paid: result.value.total_paid, status: result.value.status
-                        },
-                        success: function(response) {
-
-                            if(response.status) {
-
-                                Swal.fire({
-                                    position: 'top',
-                                    icon: 'success',
-                                    title: 'Payment Successful!',
-                                }).then(function() {
-                                    location.reload();
-                                });
-
+                                if(response.status) {
+    
+                                    Swal.fire({
+                                        position: 'top',
+                                        icon: 'success',
+                                        title: 'Payment Successful!',
+                                    }).then(function() {
+                                        location.reload();
+                                    });
+    
+                                }
+                                else {
+                                    Swal.fire({
+                                        position: 'top',
+                                        icon: 'warning',
+                                        title: response.message,
+                                        showConfirmButton: true
+                                    });
+                                }
+    
+                                Swal.close();
+    
                             }
-                            else {
-                                Swal.fire({
-                                    position: 'top',
-                                    icon: 'warning',
-                                    title: response.message,
-                                    showConfirmButton: true
-                                });
-                            }
-
-                            Swal.close();
-
-                        }
-                    });
+                        });
+                    }
     
                 });// swal
     
