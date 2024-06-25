@@ -448,7 +448,7 @@ payments_table.on('select', function(e, dt, type, indexes) {
                         const payment = Swal.getPopup().querySelector('#new-payment').value;
                         const client_id = selected_row.client_id;
                         const payment_id = selected_row.payment_id;
-                        const form_id = selected_row.id;
+                        const form_id = selected_row.form_id;
                         const service_id = selected_row.service_id;
                         const service_price = selected_row.service_price;
                         const remaining_balance = selected_row.remaining_balance;
@@ -477,7 +477,7 @@ payments_table.on('select', function(e, dt, type, indexes) {
                 }).then((result) => {
 
                     if(result.isConfirmed) {
-                        
+
                         Swal.fire({
                             title: 'Processing',
                             text: 'Sending Email Receipt to Client',
@@ -518,7 +518,7 @@ payments_table.on('select', function(e, dt, type, indexes) {
                                     });
                                 }
     
-                                Swal.close();
+                                // Swal.close();
     
                             }
                         });

@@ -212,7 +212,7 @@ function submitPayment($db) {
                 $SERVICES->updatePayment();
 
                 // Check if Rental is Fully Paid
-                if($SERVICES->total_paid == $_POST['service_price']) {
+                if($SERVICES->payment_balance == 0) {
                     $SERVICES->status = 'Paid';
                     $SERVICES->form_id = $_POST['form_id'];
                     $SERVICES->updateStatus();
