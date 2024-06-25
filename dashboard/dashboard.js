@@ -278,7 +278,7 @@ $.ajax({
                             const client_id = selected_row.client_id;
                             const form_id = selected_row.id;
                             const service_id = selected_row.service_id;
-                            const service_price = selected_row.service_price.replaceAll(",","");
+                            const service_price = selected_row.service_price;
                             const status = selected_row.status;
 
                             // If Empty
