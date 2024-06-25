@@ -31,9 +31,10 @@ function service_type($db) {
 }
 
 function servicesSelection($data) {
-    $selection = [
-        ['id' => $_POST['search'], 'text' => $_POST['search']]
-    ];
+    $selection = [];
+    if(isset($_POST['search'])) {
+        $selection[] = ['id' => $_POST['search'], 'text' => $_POST['search']];
+    }
     foreach($data as $key => $value) {
         $selection[] = ['id' => $value->service_id, 'text' => $value->service_name];
     }
